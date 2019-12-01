@@ -1,4 +1,8 @@
-package Ex1;
+package Ex1Testing;
+import Ex1.Monom;
+import org.junit.Test;
+import org.junit.Assert;
+
 import java.util.ArrayList;
 /**
  * This class represents a simple (naive) tester for the Monom class, 
@@ -18,7 +22,10 @@ import java.util.ArrayList;
 3) -2.2x^2    	isZero: false  	eq: true  <br>
  */
 public class MonomTest {
+	/**
+	@Test
 	public static void main(String[] args) {
+
 		myMonomTest();
 		derivativeTest();
 		fTest();
@@ -28,11 +35,11 @@ public class MonomTest {
 		toStringTest();
 
 
-
 	}
+	 **/
 
-
-	public static void myMonomTest(){
+	@Test
+	public void myMonomTest(){
 		int failSum = 0;
 		String s[] = new String[5];
 			s[0] = "a";
@@ -49,29 +56,33 @@ public class MonomTest {
 				}
 			}
 			myAssert(failSum == 5,"somthing wrong with the input","myMonomTest");
+			assert(failSum == 5);
 
 
 	}
-
-	public static void derivativeTest(){
+	@Test
+	public void derivativeTest(){
 		Monom m = new Monom("-4x^4");
 		Monom mDer = new Monom("-16x^3");
 		myAssert(mDer.equals(m.derivative()),"derivativeTest FAIL " + m +" derivative: " +m.derivative(),"derivativeTest");
 
 	}
-	public static void fTest() {
+	@Test
+	public void fTest() {
 		Monom m = new Monom("3x^4");
 		double y = 3;
 		double x = 1;
 		myAssert(m.f(x)== y,"fail at f("+x+")="+ m +"="+m.f(x)+" need tp be : "+y,"fTest");
 
 	}
-	public static void isZeroTest(){
+	@Test
+	public void isZeroTest(){
 		Monom m = new Monom("0");
 		myAssert(m.isZero(),m +"Err: is zero","isZeroTest");
 
 	}
-	public static void addTest(){
+	@Test
+	public void addTest(){
 		Monom m1 = new Monom("3*x^2");
 		Monom m2 = new Monom("4x^2");
 		Monom m1p2 = new Monom("7x^2");
@@ -89,14 +100,17 @@ public class MonomTest {
 		}
 
 	}
-	public static void multipyTest(){
+	@Test
+	public void multipyTest() {
 		Monom m = new Monom("2x^5");
 		Monom m2 = new Monom("4x^2");
 		Monom mMulM2 = new Monom("8x^7");
 		m.multipy(m2);
-		myAssert(mMulM2.equals(m),"fail!! ","multipyTest");
+		myAssert(mMulM2.equals(m), "fail!! ", "multipyTest");
 	}
-	public static void toStringTest(){
+
+	@Test
+	public void toStringTest(){
 		Monom m = new Monom("3");
 		Monom m1 = new Monom("3x^2");
 		Monom m2 = new Monom("x^4");

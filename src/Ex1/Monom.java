@@ -77,6 +77,16 @@ public class Monom implements function{
 		return ans;
 	}
 
+	@Override
+	public function initFromString(String s) {
+		return null;
+	}
+
+	@Override
+	public function copy() {
+		return null;
+	}
+
 	/**
 	 * A boolean method checking if the Monom represents Zero-Monom.
 	 * @return true if the Monom is a zero Monom, false if not.

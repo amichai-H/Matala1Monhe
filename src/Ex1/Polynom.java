@@ -61,6 +61,12 @@ public class Polynom implements Polynom_able{
         }
 		return sum;
 	}
+
+	@Override
+	public function initFromString(String s) {
+		return null;
+	}
+
 	/**
 	 * Method that adds Polynom p1 to this Polynom.
 	 * @param p1 = the given Polynom the user wants to add.
