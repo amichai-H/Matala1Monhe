@@ -1,5 +1,7 @@
 package Ex1;
 
+import com.sun.source.tree.IfTree;
+
 public class BinaryTreeFunction {
     public class Node {
 
@@ -15,7 +17,12 @@ public class BinaryTreeFunction {
         }
         private Node(function value) {
             _isOperation = false;
-            _value = value;
+            _value = value.copy();
+        }
+        private Node(Node other){
+            this._isOperation = other._isOperation;
+            this._operation = other._operation;
+            this._value = other._value.copy();
         }
         private boolean hasLeft(){
             return this._left!= null;
@@ -44,6 +51,8 @@ public class BinaryTreeFunction {
         }
     }
     private Node _root;
+    public BinaryTreeFunction(){
+    }
 
     public BinaryTreeFunction(Operation p){
         _root = new Node(p);
@@ -141,13 +150,81 @@ public class BinaryTreeFunction {
         throw new RuntimeException("ERR : no right opertion");
     }
 
-    public function getLF() {
-        return _root._left.getFunction();
+    public BinaryTreeFunction getLF() {
+        BinaryTreeFunction temp = new BinaryTreeFunction(_root._left);
+        return temp;
     }
-    public function getRF() {
-        return _root._right.getFunction();
+    public BinaryTreeFunction getRF() {
+        BinaryTreeFunction temp = new BinaryTreeFunction(_root._right);
+        return temp;
     }
     public Operation getOP() {
         return _root.get_operation();
+    }
+    public BinaryTreeFunction copy(){
+        BinaryTreeFunction temp = new BinaryTreeFunction();
+        recursiaCopy(temp._root,_root);
+        return temp;
+    }
+    private void recursiaCopy(Node current,Node imgCurrent){
+        if (imgCurrent == null) return;
+        current = new Node(imgCurrent);
+        recursiaCopy(current._left,imgCurrent._left);
+        recursiaCopy(current._right,imgCurrent._right);
+    }
+    private Operation findOpFromString(String s){
+        switch (s){
+            case "Plus": return Operation.Plus;
+            case "Times": return Operation.Times;
+            case "Divid": return Operation.Divid;
+            case "Max": return Operation.Max;
+            case "Min": return Operation.Min;
+            case "Comp": return Operation.Comp;
+            case "None": return Operation.None;
+            case "Error": return Operation.Error;
+            default:
+                throw new RuntimeException("ERR: no action was found");
+        }
+    }
+
+    private BinaryTreeFunction crateFunctionFromString(String s) {
+        BinaryTreeFunction temp = new BinaryTreeFunction();
+        temp.createBtree(s);
+        return null;
+    }
+    private void createBtree(String s){
+        int i = s.indexOf('(');
+        Operation p = findOpFromString(s.substring(0,i));
+        this._root = new Node(p);
+
+    }
+    private void recursBild(String s,Node current){
+        if(s.charAt(0)=='(') {
+            int index = findIndexMainComma(s);
+            String left = s.substring(1,index);
+            boolean isOp = ifIsOp(left);
+            if (isOp){
+                int openIndex = left.charAt('(');
+                current._left = new Node(findOpFromString(left.substring(1,openIndex)));
+                recursBild(s.substring(openIndex,index),current._left);
+            }
+            else { // left is function
+                current._left = new Node(new Polynom(left));
+            }
+        }
+        else //im after ','
+        {
+            int index = s.indexOf(')');
+            String left = s.substring(1,index);
+            boolean isOp = ifIsOp(left);
+            if (isOp){
+                int openIndex = left.charAt('(');
+                current._right = new Node(findOpFromString(left.substring(1,openIndex)));
+                recursBild(s.substring(openIndex,index),current._right);
+            }
+            else { // left is function
+                current._right = new Node(new Polynom(left));
+            }
+        }
     }
 }

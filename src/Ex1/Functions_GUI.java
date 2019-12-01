@@ -25,7 +25,6 @@ public class Functions_GUI implements functions {
 
     }
 
-    @Override
     public function copy() {
         return null;
     }

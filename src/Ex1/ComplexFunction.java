@@ -3,6 +3,12 @@ package Ex1;
 
 public class ComplexFunction implements complex_function {
     private BinaryTreeFunction _bTF;
+    private   ComplexFunction(){
+
+    }
+    private   ComplexFunction(BinaryTreeFunction b){
+        _bTF = b;
+    }
     public ComplexFunction(Polynom p) {
         _bTF = new BinaryTreeFunction(p);
     }
@@ -65,12 +71,16 @@ public class ComplexFunction implements complex_function {
 
     @Override
     public function left() {
-        return _bTF.getLF();
+        ComplexFunction temp = new ComplexFunction();
+        temp._bTF = _bTF.getLF();
+        return temp;
     }
 
     @Override
     public function right() {
-        return _bTF.getRF();
+        ComplexFunction temp = new ComplexFunction();
+        temp._bTF = _bTF.getRF();
+        return temp;
     }
 
     @Override
@@ -84,11 +94,25 @@ public class ComplexFunction implements complex_function {
     }
 
     public function copy() {
-        return null;
+        return new ComplexFunction(this._bTF.copy());
     }
 
     public function initFromString(String s1) {
-        return null;
+        boolean tryPoly = false;
+        Polynom p = new Polynom();
+        try {
+            p = new Polynom(s1);
+            tryPoly = true;
+        }catch (Exception e){
+            tryPoly = false;
+        }
+        if (tryPoly){
+            return p;
+        }
+
+       if (!stringCheck(s1)) throw new RuntimeException("Err not a String");
+
+    return null;
     }
 
     private Operation findOpFromString(String s){
@@ -105,4 +129,35 @@ public class ComplexFunction implements complex_function {
                 throw new RuntimeException("ERR: no action was found");
         }
     }
+    private boolean stringCheck(String s){
+        if (s == null){
+            return false;
+        }
+        boolean ok = true,commaOk = true;
+        boolean opener;
+        boolean comma;
+        boolean bracket;
+        int notNegative = 0,numOfOpener = 0,numOfBracket = 0, numOfComma = 0;
+        for (int i = 0; i<s.length()&&ok;i++){
+            opener=s.charAt(i)=='(';
+            comma=s.charAt(i)==',';
+            bracket=s.charAt(i)==')';
+
+            if (opener) numOfOpener++;
+            if (comma) numOfComma++;
+            if (bracket) numOfBracket++;
+
+            if (comma){
+                commaOk = numOfOpener>=numOfComma&&numOfBracket<=numOfComma;
+            }
+
+            notNegative = numOfOpener - numOfBracket;
+
+            ok = (notNegative>=0)&&commaOk;
+
+        }
+        return ok;
+
+    }
+
 }
