@@ -230,8 +230,9 @@ public class Monom implements function{
                 if(i == s.length()-1)
                     this.set_power(1);
                 else {
-                    if(s.charAt(i+1) != '^')
-                        throw new RuntimeException("invalid syntax of Monom");
+                    if(s.charAt(i+1) != '^') {
+						throw new RuntimeException("invalid syntax of Monom");
+					}
                     else {
                         int j = i+2;
                         while(j < s.length()) {

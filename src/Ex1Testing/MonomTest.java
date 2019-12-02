@@ -1,9 +1,6 @@
-package Ex1Testing;
 import Ex1.Monom;
 import org.junit.Test;
-import org.junit.Assert;
 
-import java.util.ArrayList;
 /**
  * This class represents a simple (naive) tester for the Monom class, 
  * Note: <br>

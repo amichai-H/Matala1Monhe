@@ -2,7 +2,7 @@ package Ex1;
 
 
 public class ComplexFunction implements complex_function {
-    private BinaryTreeFunction _bTF;
+    private BinaryTreeFunction _bTF = new BinaryTreeFunction();
     private   ComplexFunction(){
 
     }
@@ -98,7 +98,7 @@ public class ComplexFunction implements complex_function {
     }
 
     public function initFromString(String s1) {
-        boolean tryPoly = false;
+        boolean tryPoly;
         Polynom p = new Polynom();
         try {
             p = new Polynom(s1);
@@ -112,14 +112,14 @@ public class ComplexFunction implements complex_function {
 
        if (!stringCheck(s1)) throw new RuntimeException("Err not a String");
 
-    return null;
+     return new ComplexFunction(_bTF.createFunctionFromString(s1));
     }
 
     private Operation findOpFromString(String s){
         switch (s){
             case "Plus": return Operation.Plus;
-            case "Times": return Operation.Times;
-            case "Divid": return Operation.Divid;
+            case "Mul": return Operation.Times;
+            case "Div": return Operation.Divid;
             case "Max": return Operation.Max;
             case "Min": return Operation.Min;
             case "Comp": return Operation.Comp;
@@ -160,4 +160,8 @@ public class ComplexFunction implements complex_function {
 
     }
 
+    @Override
+    public String toString() {
+        return _bTF.toString();
+    }
 }

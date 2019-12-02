@@ -1,18 +1,21 @@
 package Ex1;
 
-import com.sun.source.tree.IfTree;
 
 public class BinaryTreeFunction {
     public class Node {
 
         private Node _left,_right;
-        private   boolean _isOperation;
-        private Operation _operation;
+        private   boolean _isOperation = false;
+        private Operation _operation = Operation.None;
         private function _value = null;
         private double results;
 
-        private Node(Operation p){
-            _isOperation = true;
+        private Node(){
+
+        }
+
+        private Node(Operation p) {
+            if (p == Operation.None) _isOperation = false;
             _operation = p;
         }
         private Node(function value) {
@@ -20,9 +23,12 @@ public class BinaryTreeFunction {
             _value = value.copy();
         }
         private Node(Node other){
-            this._isOperation = other._isOperation;
-            this._operation = other._operation;
-            this._value = other._value.copy();
+            if(!(other == null)) {
+                this._isOperation = other._isOperation;
+                this._operation = other._operation;
+                if (other._value != null)
+                    this._value = other._value.copy();
+            }
         }
         private boolean hasLeft(){
             return this._left!= null;
@@ -38,6 +44,12 @@ public class BinaryTreeFunction {
             else return results;
         }
 
+        public void set_operation(Operation _operation) {
+            if (_operation!=Operation.None)
+                _isOperation = true;
+            this._operation = _operation;
+        }
+
         public function getFunction() {
             return _value;
         }
@@ -49,42 +61,52 @@ public class BinaryTreeFunction {
         public Operation get_operation() {
             return _operation;
         }
+
+        @Override
+        public String toString() {
+            if (_isOperation) return _operation+"";
+            else return _value+"";
+        }
     }
-    private Node _root;
+    private Node _root = new Node();
     public BinaryTreeFunction(){
     }
 
     public BinaryTreeFunction(Operation p){
-        _root = new Node(p);
+        _root.set_operation(p);
+        _root._left = new Node();
+        _root._right = new Node();
     }
 
     public BinaryTreeFunction(function p){
         _root = new Node(p);
     }
     public BinaryTreeFunction(Node p){
-        _root = p;
+        _root =new Node(p);
     }
 
     public Node add(Operation p,boolean left,Node current){
-        Node temp = new Node(p);
+        Node temp = new Node();
+        temp.set_operation(p);
 
         if (left){
-            current._left = temp;
-        }
+            current._left = new Node(temp);
+    }
         else {
-            current._right = temp;
+            current._right = new Node(temp);
         }
         return temp;
     }
 
     public Node add(function p,boolean left){
-        Node temp = new Node(p);
+        Node temp = new Node();
+        temp._value = p;
 
         if (left){
-            _root._left = temp;
+            _root._left = new Node(temp);
         }
         else {
-            _root._right = temp;
+            _root._right =new Node(temp);
         }
         return temp;
     }
@@ -161,22 +183,33 @@ public class BinaryTreeFunction {
     public Operation getOP() {
         return _root.get_operation();
     }
+
     public BinaryTreeFunction copy(){
         BinaryTreeFunction temp = new BinaryTreeFunction();
-        recursiaCopy(temp._root,_root);
+        if (_root == null) return temp;
+        else {
+
+            temp._root= recursiaCopy(temp._root,_root);
+        }
         return temp;
     }
-    private void recursiaCopy(Node current,Node imgCurrent){
-        if (imgCurrent == null) return;
-        current = new Node(imgCurrent);
-        recursiaCopy(current._left,imgCurrent._left);
-        recursiaCopy(current._right,imgCurrent._right);
+    private Node recursiaCopy(Node nodeCopy,Node node){
+        if (node == null) return null;
+        else {
+            nodeCopy = new Node(_root);
+            nodeCopy._left = recursiaCopy(nodeCopy._left, node._left);
+            nodeCopy._right = recursiaCopy(nodeCopy._right, node._right);
+        }
+        return nodeCopy;
+
+
+
     }
     private Operation findOpFromString(String s){
         switch (s){
             case "Plus": return Operation.Plus;
-            case "Times": return Operation.Times;
-            case "Divid": return Operation.Divid;
+            case "Mul": return Operation.Times;
+            case "Div": return Operation.Divid;
             case "Max": return Operation.Max;
             case "Min": return Operation.Min;
             case "Comp": return Operation.Comp;
@@ -187,44 +220,95 @@ public class BinaryTreeFunction {
         }
     }
 
-    private BinaryTreeFunction crateFunctionFromString(String s) {
+    public BinaryTreeFunction createFunctionFromString(String s) {
         BinaryTreeFunction temp = new BinaryTreeFunction();
         temp.createBtree(s);
-        return null;
+        return temp;
     }
     private void createBtree(String s){
-        int i = s.indexOf('(');
-        Operation p = findOpFromString(s.substring(0,i));
-        this._root = new Node(p);
+        _root = new Node(Operation.None);
+        recursBild(s,_root);
+
 
     }
     private void recursBild(String s,Node current){
-        if(s.charAt(0)=='(') {
-            int index = findIndexMainComma(s);
-            String left = s.substring(1,index);
-            boolean isOp = ifIsOp(left);
-            if (isOp){
-                int openIndex = left.charAt('(');
-                current._left = new Node(findOpFromString(left.substring(1,openIndex)));
-                recursBild(s.substring(openIndex,index),current._left);
-            }
-            else { // left is function
-                current._left = new Node(new Polynom(left));
+        if(ifIsOp(s)){
+            current.set_operation( returnOp(s));
+            int comma = findIndexMainComma(s);
+            String left = returnLeftStringOp(s.substring(0,comma));
+            String right = s.substring(comma+1);
+            current._left=new Node(Operation.None);
+            current._right = new Node(Operation.None);
+            recursBild(left,current._left);
+            recursBild(right,current._right);
+        }
+        else {
+            current._value = new Polynom(clearFunction(s));
+
+        }
+
+    }
+    private int findIndexMainComma(String s){
+        int sumOfOpen = 0 ,sumOfComma = 0;
+        boolean opener;
+        boolean comma;
+        boolean bracket;
+        for (int i=0;i<s.length();i++){
+            opener = s.charAt(i)=='(';
+            comma = s.charAt(i)==',';
+            bracket = s.charAt(i) == ')';
+
+            if (opener) sumOfOpen++;
+            if (bracket) sumOfOpen--;
+            if (comma){
+                sumOfComma++;
+                if (sumOfComma==sumOfOpen) return i;
+                break;
             }
         }
-        else //im after ','
-        {
-            int index = s.indexOf(')');
-            String left = s.substring(1,index);
-            boolean isOp = ifIsOp(left);
-            if (isOp){
-                int openIndex = left.charAt('(');
-                current._right = new Node(findOpFromString(left.substring(1,openIndex)));
-                recursBild(s.substring(openIndex,index),current._right);
-            }
-            else { // left is function
-                current._right = new Node(new Polynom(left));
-            }
+        throw new RuntimeException("ERR FIX ME!!!");
+    }
+
+    private boolean ifIsOp(String s){
+        if(s.charAt(0)=='P'||s.charAt(0)=='D'||s.charAt(0)=='C'||s.charAt(0)=='M'||s.charAt(0)=='N'||s.charAt(0)=='E'){
+            return true;
         }
+        else {
+            return false;
+        }
+    }
+
+    private String returnLeftStringOp(String s){
+        int index = s.indexOf('(');
+        if (index==-1) throw new RuntimeException("Err : problem at insertOpReturnLeft ");
+        return s.substring(index+1);
+    }
+
+    private Operation returnOp(String s){
+        int index = s.indexOf('(');
+        if (index==-1) throw new RuntimeException("Err : problem at Op");
+        String temp = s.substring(0,index);
+        return findOpFromString(temp);
+    }
+
+    private String clearFunction(String s){
+        int index = s.indexOf(')');
+        if (index!=-1){
+            return s.substring(0,index);
+        }
+        else return s;
+    }
+    @Override
+    public String toString() {
+        return printInOrder(_root);
+    }
+
+    private String printInOrder(Node current){
+        if (current == null) return "";
+        if (current._isOperation){
+            return current._operation+"("+printInOrder(current._left)+","+printInOrder(current._right)+")";
+        }
+        else return current._value+"";
+
     }
 }
