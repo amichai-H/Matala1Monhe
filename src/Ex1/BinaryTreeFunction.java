@@ -1,6 +1,8 @@
 package Ex1;
 
 
+import java.util.Stack;
+
 public class BinaryTreeFunction {
     public class Node {
 
@@ -251,25 +253,18 @@ public class BinaryTreeFunction {
 
     }
     private int findIndexMainComma(String s){
-        int sumOfOpen = 0 ,sumOfComma = 0;
-        boolean opener;
-        boolean comma;
-        boolean bracket;
-        for (int i=0;i<s.length();i++){
-            opener = s.charAt(i)=='(';
-            comma = s.charAt(i)==',';
-            bracket = s.charAt(i) == ')';
-
-            if (opener) sumOfOpen++;
-            if (bracket) sumOfOpen--;
-            if (comma){
-                sumOfComma++;
-                if (sumOfComma==sumOfOpen) return i;
-                break;
+        Stack<Character> bracket = new Stack<Character>();
+        for(int i=0; i<s.length(); i++){
+            if(s.charAt(i) == '(')
+                bracket.push(s.charAt(i));
+            if(s.charAt(i) == ',') {
+                if(bracket.size() == 1)
+                    return i;
             }
+            if(s.charAt(i) == ')')
+                bracket.pop();
         }
-        System.out.println(sumOfOpen);
-        throw new RuntimeException("ERR FIX ME!!!");
+        throw new RuntimeException("String is illegal");
     }
 
     private boolean ifIsOp(String s){
