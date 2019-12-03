@@ -40,8 +40,9 @@ public class BinaryTreeFunction {
             return !this.hasright() && !this.hasLeft();
         }
         private double getResults(double x){
-            if (this.isLeaf()) return _value.f(x);
-            else return results;
+            if (_value != null && this.isLeaf()) return _value.f(x);
+            else
+                return results;
         }
 
         public void set_operation(Operation _operation) {
@@ -68,7 +69,9 @@ public class BinaryTreeFunction {
             else return _value+"";
         }
     }
+
     private Node _root = new Node();
+
     public BinaryTreeFunction(){
     }
 
@@ -81,7 +84,8 @@ public class BinaryTreeFunction {
     public BinaryTreeFunction(function p){
         _root = new Node(p);
     }
-    public BinaryTreeFunction(Node p){
+
+    private BinaryTreeFunction(Node p){
         _root =new Node(p);
     }
 
@@ -98,7 +102,7 @@ public class BinaryTreeFunction {
         return temp;
     }
 
-    public Node add(function p,boolean left){
+    public void add(function p,boolean left){
         Node temp = new Node();
         temp._value = p;
 
@@ -108,7 +112,6 @@ public class BinaryTreeFunction {
         else {
             _root._right =new Node(temp);
         }
-        return temp;
     }
 
     public void add(BinaryTreeFunction b,boolean left){
@@ -121,7 +124,7 @@ public class BinaryTreeFunction {
         }
     }
 
-    public Node add(function value, boolean left, Node current){
+    public void add(function value, boolean left, Node current){
         Node temp = new Node(value);
 
         if (left){
@@ -130,11 +133,10 @@ public class BinaryTreeFunction {
         else {
             current._right = temp;
         }
-        return temp;
     }
 
-    public double caculate(double x){
-        if (_root == null) return 0;
+    public double calculate(double x){
+        if (_root == null) throw new RuntimeException("NULL!!! at F(x)");
         Node temp = recursiveCalculate(_root,x);
         return temp.getResults(x);
     }
@@ -162,12 +164,15 @@ public class BinaryTreeFunction {
             case Plus:
                 return left.getResults(x) + right.getResults(x);
             case Divid:
+                if (right.getResults(x)==0){
+                    Functions_GUI.divByZero = true;
+                    return 0;
+                }
                 return left.getResults(x) / right.getResults(x);
             case Times:
                 return left.getResults(x) * right.getResults(x);
             case Error:
-                throw new RuntimeException("ERR : no right opertion");
-                default:
+                default: throw new RuntimeException("ERR : no right opertion");
         }
         throw new RuntimeException("ERR : no right opertion");
     }
@@ -186,25 +191,22 @@ public class BinaryTreeFunction {
 
     public BinaryTreeFunction copy(){
         BinaryTreeFunction temp = new BinaryTreeFunction();
-        if (_root == null) return temp;
-        else {
-
-            temp._root= recursiaCopy(temp._root,_root);
+        if (_root != null){
+            temp._root= recursCopy(_root);
         }
         return temp;
     }
-    private Node recursiaCopy(Node nodeCopy,Node node){
-        if (node == null) return null;
-        else {
-            nodeCopy = new Node(_root);
-            nodeCopy._left = recursiaCopy(nodeCopy._left, node._left);
-            nodeCopy._right = recursiaCopy(nodeCopy._right, node._right);
+
+    private Node recursCopy(Node node){
+        Node nodeCopy = new Node();
+        if (node != null){
+            nodeCopy = new Node(node);
+            nodeCopy._left = recursCopy(node._left);
+            nodeCopy._right = recursCopy(node._right);
         }
         return nodeCopy;
-
-
-
     }
+
     private Operation findOpFromString(String s){
         switch (s){
             case "Plus": return Operation.Plus;
@@ -266,6 +268,7 @@ public class BinaryTreeFunction {
                 break;
             }
         }
+        System.out.println(sumOfOpen);
         throw new RuntimeException("ERR FIX ME!!!");
     }
 
@@ -310,5 +313,9 @@ public class BinaryTreeFunction {
         }
         else return current._value+"";
 
+    }
+
+    public function get_function() {
+        return _root.getFunction();
     }
 }

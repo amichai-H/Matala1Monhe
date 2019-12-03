@@ -1,4 +1,3 @@
-package Ex1Testing;
 
 import Ex1.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,21 +18,38 @@ import org.junit.jupiter.api.Test;
  */
 class Functions_GUITest {
 	public static void main(String[] a) {
-		Functions_GUI data = FunctionsFactory();
-		int w=1000, h=600, res=200;
-		Range rx = new Range(-10,10);
-		Range ry = new Range(-5,15);
+		Functions_GUI data = new Functions_GUI();
+		Polynom ppp= new Polynom("-1.0x^4+2.4x^2+3.1");
+		Polynom p= new Polynom("+0.1x^5-1.2999999999999998x+5.0");
+		complex_function cf= new ComplexFunction("plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0)");
+		//complex_function cf1= new ComplexFunction("plus(div(+1.0x +1.0,mul(mul(+1.0x +3.0,+1.0x -2.0),+1.0x-4.0)),2.0)");
+		//complex_function cf2= new ComplexFunction("div(plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0),-1.0x^4 +2.4x^2 +3.1)");
+		//complex_function cf3= new ComplexFunction("max(max(max(max(plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 - 1.2999999999999998x +5.0),plus(div(+1.0x +1.0,mul(mul(+1.0x +3.0,+1.0x -2.0),+1.0x -4.0)),2.0)),div(plus(- 1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0),-1.0x^4 +2.4x^2 +3.1)),-1.0x^4 +2.4x^2 +3.1),+0.1x^5 -1.2999999999999998x +5.0)");
+		//complex_function cf4= new ComplexFunction("min(min(min(min(plus(-1.0x^4 +2.4x^2 +3.1,+0.1x^5 - 1.2999999999999998x +5.0),plus(div(+1.0x +1.0,mul(mul(+1.0x +3.0,+1.0x -2.0),+1.0x -4.0)),2.0)),div(plus(- 1.0x^4 +2.4x^2 +3.1,+0.1x^5 -1.2999999999999998x +5.0),-1.0x^4 +2.4x^2 +3.1)),-1.0x^4 +2.4x^2 +3.1),+0.1x^5 -1.2999999999999998x +5.0)");
+		data.clear();
+		data.add(ppp);
+		data.add(p);
+		data.add(cf);
+		//data.add(cf1);
+		//data.add(cf2);
+		//data.add(cf3);
+		//data.add(cf4);
+		//System.out.println(cf.f(-5));
+		int w=1000, h=600, res=100;
+		Range rx = new Range(-10,12);
+		Range ry = new Range(-10,10);
 		data.drawFunctions(w,h,rx,ry,res);
+
 	}
 	private Functions_GUI _data=null;
 //	@BeforeAll
 //	static void setUpBeforeClass() throws Exception {
 //	}
 
-	@BeforeEach
-	void setUp() throws Exception {
-		_data = FunctionsFactory();
-	}
+	//@BeforeEach
+	//void setUp() throws Exception {
+	//	_data = FunctionsFactory();
+	//}
 
 	//@Test
 	void testFunctions_GUI() {
@@ -56,45 +72,45 @@ class Functions_GUITest {
 	//	fail("Not yet implemented");
 	}
 
-	@Test
-	void testDrawFunctionsIntIntRangeRangeInt() {
-		_data.drawFunctions();
+	//@Test
+	//void testDrawFunctionsIntIntRangeRangeInt() {
+		//_data.drawFunctions();
 		//fail("Not yet implemented");
-	}
-	public static Functions_GUI FunctionsFactory() {
-		Functions_GUI ans = new Functions_GUI();
-		String s1 = "3.1+2.4x^2-x^4";
-		String s2 = "5+2x-3.3x+0.1x^5";
-		String[] s3 = {"x+3","x-2", "x-4"};
-		Polynom p1 = new Polynom(s1);
-		Polynom p2 = new Polynom(s2);
-		Polynom p3 = new Polynom(s3[0]);
-		ComplexFunction cf3 = new ComplexFunction(p3);
-		for(int i=1;i<s3.length;i++) {
-			cf3.mul(new Polynom(s3[i]));
-		}
+	//}
+	//public static Functions_GUI FunctionsFactory() {
+		//Functions_GUI ans = new Functions_GUI();
+		//String s1 = "3.1+2.4x^2-x^4";
+		//String s2 = "5+2x-3.3x+0.1x^5";
+		//String[] s3 = {"x+3","x-2", "x-4"};
+		//Polynom p1 = new Polynom(s1);
+		//Polynom p2 = new Polynom(s2);
+		//Polynom p3 = new Polynom(s3[0]);
+		//ComplexFunction cf3 = new ComplexFunction(p3);
+		//for(int i=1;i<s3.length;i++) {
+		//	cf3.mul(new Polynom(s3[i]));
+		//}
 		
-		ComplexFunction cf = new ComplexFunction("Plus", p1,p2);
-		ComplexFunction cf4 = new ComplexFunction("Div", new Polynom("x+1"),cf3);
-		cf4.plus(new Monom("2"));
-		ans.add(cf.copy());
-		ans.add(cf4.copy());
-		cf.div(p1);
-		ans.add(cf.copy());
-		String s = cf.toString();
+		//ComplexFunction cf = new ComplexFunction("Plus", p1,p2);
+		//ComplexFunction cf4 = new ComplexFunction("Div", new Polynom("x+1"),cf3);
+		//cf4.plus(new Monom("2"));
+		//ans.add(cf.copy());
+		//ans.add(cf4.copy());
+		//cf.div(p1);
+		//ans.add(cf.copy());
+		//String s = cf.toString();
 		//functions cf5 = cf4.initFromString(s1);
 		//functions cf6 = cf4.initFromString(s2);
 		//ans.add(cf5.copy());
 		//ans.add(cf6.copy());
 		//ComplexFunction max = new ComplexFunction(ans.get(0).copy());
 		//ComplexFunction min = new ComplexFunction(ans.get(0).copy());
-		for(int i=1;i<ans.size();i++) {
+		//for(int i=1;i<ans.size();i++) {
 			//max.max(ans.get(i));
 			//min.min(ans.get(i));
-		}
+		//}
 		//ans.add(max);
 		//ans.add(min);
 		
-		return ans;
-	}
+		//return ans;
+	//}
 }

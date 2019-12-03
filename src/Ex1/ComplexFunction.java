@@ -6,8 +6,15 @@ public class ComplexFunction implements complex_function {
     private   ComplexFunction(){
 
     }
-    private   ComplexFunction(BinaryTreeFunction b){
+    private ComplexFunction(BinaryTreeFunction b){
         _bTF = b;
+    }
+    public ComplexFunction(String  s){
+        try {
+            _bTF = ((ComplexFunction) initFromString(s))._bTF;
+        }catch (Exception e){
+            _bTF = new BinaryTreeFunction(initFromString(s));
+        }
     }
     public ComplexFunction(Polynom p) {
         _bTF = new BinaryTreeFunction(p);
@@ -73,6 +80,9 @@ public class ComplexFunction implements complex_function {
     public function left() {
         ComplexFunction temp = new ComplexFunction();
         temp._bTF = _bTF.getLF();
+        if (temp._bTF.getOP()==Operation.None){
+            return _bTF.get_function();
+        }
         return temp;
     }
 
@@ -90,7 +100,7 @@ public class ComplexFunction implements complex_function {
 
     @Override
     public double f(double x) {
-        return _bTF.caculate(x);
+        return _bTF.calculate(x);
     }
 
     public function copy() {
@@ -111,6 +121,9 @@ public class ComplexFunction implements complex_function {
         }
 
        if (!stringCheck(s1)) throw new RuntimeException("Err not a String");
+       s1 = s1.replaceAll(" ","");
+       s1=fixText(s1);
+
 
      return new ComplexFunction(_bTF.createFunctionFromString(s1));
     }
@@ -163,5 +176,20 @@ public class ComplexFunction implements complex_function {
     @Override
     public String toString() {
         return _bTF.toString();
+    }
+
+    private String fixText(String s){
+        s = s.replaceAll("div","Div");
+        s = s.replaceAll("divid","Div");
+        s = s.replaceAll("Divid","Div");
+        s = s.replaceAll("plus","Plus");
+        s = s.replaceAll("mul","Mul");
+        s = s.replaceAll("Times","Mul");
+        s = s.replaceAll("times","Mul");
+        s = s.replaceAll("comp","Comp");
+        s = s.replaceAll("max","Max");
+        s = s.replaceAll("none","None");
+        s = s.replaceAll("min","Min");
+        return s;
     }
 }

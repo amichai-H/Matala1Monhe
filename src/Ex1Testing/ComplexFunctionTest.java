@@ -1,5 +1,6 @@
 import Ex1.ComplexFunction;
 import Ex1.Polynom;
+import Ex1.function;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -92,8 +93,8 @@ public class ComplexFunctionTest {
         System.out.println("********** initFromString **********");
 
         ComplexFunction complexFunction = new ComplexFunction("Plus",new Polynom("3x^2"),new Polynom("2x^4"));
-        ComplexFunction complexFunction1 = (ComplexFunction) complexFunction.initFromString("Plus(3x^5,Div(3x,2x^2))");
-        System.out.println(complexFunction);
+        function complexFunction1 = complexFunction.initFromString("Plus(3.0x^5,Div(3.0x,2.0x^2))");
+        System.out.println(complexFunction1);
         assertEquals(complexFunction1.toString(),"Plus(3.0x^5,Divid(3.0x,2.0x^2))");
     }
 
