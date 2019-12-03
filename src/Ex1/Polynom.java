@@ -422,6 +422,10 @@ public class Polynom implements Polynom_able{
         }
 		return temp;
 	}
+	public boolean equals(Object obj){
+
+		return false;
+	}
 
 
 

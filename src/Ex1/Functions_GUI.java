@@ -26,10 +26,10 @@ public class Functions_GUI implements functions {
         StdDraw.setCanvasSize(width,height);
         StdDraw.setPenColor(StdDraw.BLACK);
 
-        double rxMin = rx.get_min()-1;
-        double rxMax = rx.get_max()+1;
-        double ryMin = ry.get_min()-1;
-        double ryMax = ry.get_max()+1;
+        double rxMin = rx.get_min();
+        double rxMax = rx.get_max();
+        double ryMin = ry.get_min();
+        double ryMax = ry.get_max();
 
         double rangeY = Math.abs(ryMin) + Math.abs(ryMax);
         double oneYmeasure = 1/rangeY;
@@ -42,14 +42,22 @@ public class Functions_GUI implements functions {
         if (rx.get_min()<=0){
             zeroY = -1*oneXmeasure*rxMin;
         }
+        StdDraw.setPenRadius(0.01);
         StdDraw.line(zeroY,0,zeroY,1);//y
         StdDraw.line(0,zeroX,1,zeroX);//x
+        StdDraw.setPenRadius();
         double _X = rxMin;
         double _Y = ryMin;
         for (double i = 0,j=0;i<1||j<1;i=i+oneYmeasure,j=j+oneXmeasure){
             StdDraw.line(zeroY-0.01,i,zeroY+0.01,i);//y
+            StdDraw.setPenColor(Color.gray);
+            StdDraw.line(0,i,1,i);//y
+            StdDraw.setPenColor(Color.black);
+
+
             if (_Y!=0) {
                 StdDraw.text(zeroY + 0.02, i, _Y + "");
+
             }
             if (_X!=0) {
                 StdDraw.text(j, zeroX + 0.02, _X + "");
@@ -57,10 +65,12 @@ public class Functions_GUI implements functions {
             _Y++;
             _X++;
             StdDraw.line(j,zeroX-0.01,j,zeroX+0.01);//x
+            StdDraw.setPenColor(Color.gray);
+            StdDraw.line(j,0,j,1);//x
+            StdDraw.setPenColor(Color.black);
 
         }
         double epsilon = 0.05;
-        System.out.println(epsilon);
         int c = 0;
         for(function function1: arrayList){
             StdDraw.setPenColor(Colors[c++]);
@@ -78,7 +88,6 @@ public class Functions_GUI implements functions {
                         StdDraw.line(x0, y0, x1, y1);
                     }
                     else {
-                        System.out.println(divByZero);
                         divByZero = false;
                     }
 

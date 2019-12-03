@@ -192,4 +192,8 @@ public class ComplexFunction implements complex_function {
         s = s.replaceAll("min","Min");
         return s;
     }
+    public boolean equals(Object obj) {
+
+        return false;
+    }
 }
