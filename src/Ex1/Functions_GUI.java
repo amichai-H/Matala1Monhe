@@ -1,10 +1,15 @@
 package Ex1;
 
 import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Functions_GUI implements functions {
     public static boolean divByZero = false;
@@ -13,19 +18,43 @@ public class Functions_GUI implements functions {
             Color.MAGENTA, Color.ORANGE, Color.red, Color.GREEN, Color.PINK};
     @Override
     public void initFromFile(String file) throws IOException {
-        
+        JSONParser parser = new JSONParser();
+        Reader reader = new FileReader(file);
+        try {
+            Object jsonObj = parser.parse(reader);
+            JSONObject jsonObject = (JSONObject) jsonObj;
+            for (int i =0;i<jsonObject.size();i++) {
+                String functionJSON = (String) jsonObject.get(i+"");
+                this.add(new ComplexFunction(functionJSON));
+            }
+        }catch (Exception e){
+            throw new RuntimeException(e);
+
+        }
+        reader.close();
+
+
+
     }
 
     @Override
     public void saveToFile(String file) throws IOException {
+        JSONObject saveMeToFile = new JSONObject();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        int loacat = 0;
 
+        for(function function1: arrayList) {
+            saveMeToFile.put(loacat,function1+"");
+            loacat++;
+        }
+        writer.write(saveMeToFile.toString());
+        writer.close();
     }
 
     @Override
     public void drawFunctions(int width, int height, Range rx, Range ry, int resolution) {
         StdDraw.setCanvasSize(width,height);
         StdDraw.setPenColor(StdDraw.BLACK);
-
         double rxMin = rx.get_min();
         double rxMax = rx.get_max();
         double ryMin = ry.get_min();
@@ -70,7 +99,7 @@ public class Functions_GUI implements functions {
             StdDraw.setPenColor(Color.black);
 
         }
-        double epsilon = 0.05;
+        double epsilon = Math.abs(rxMax-rxMin)/resolution;
         int c = 0;
         for(function function1: arrayList){
             StdDraw.setPenColor(Colors[c++]);
