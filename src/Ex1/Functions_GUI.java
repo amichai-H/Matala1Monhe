@@ -32,9 +32,6 @@ public class Functions_GUI implements functions {
 
         }
         reader.close();
-
-
-
     }
 
     @Override
@@ -126,8 +123,39 @@ public class Functions_GUI implements functions {
     }
 
     @Override
-    public void drawFunctions(String json_file) {
+    public void drawFunctions(String json_file) throws IOException {
+        int width,height,resolution;
+        Range rx,ry;
 
+        JSONParser parser = new JSONParser();
+        Reader reader = new FileReader(json_file);
+        try {
+            Object jsonObj = parser.parse(reader);
+            JSONObject jsonObject = (JSONObject) jsonObj;
+            width =Integer.parseInt(jsonObject.get("Width")+"");
+            height =Integer.parseInt(jsonObject.get("Height")+"");
+            resolution =Integer.parseInt(jsonObject.get("Resolution")+"");
+            String rang_X = jsonObject.get("Range_X").toString();
+            String rang_Y = jsonObject.get("Range_Y").toString();
+            rx = new Range(getMinOrMax(rang_X,false),getMinOrMax(rang_X,true));
+            ry =new Range(getMinOrMax(rang_Y,false),getMinOrMax(rang_Y,true));
+            drawFunctions(width,height,rx,ry,resolution);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+
+    }
+    private double getMinOrMax(String s, boolean max){
+        int commaIndex = s.indexOf(',');
+        if (!max){
+            int bracketsIndex = s.indexOf('[');
+            return Double.parseDouble(s.substring(bracketsIndex+1,commaIndex));
+        }
+        else {
+            int bracketsIndex = s.indexOf(']');
+            return Double.parseDouble(s.substring(commaIndex+1,bracketsIndex));
+
+        }
     }
 
     public function copy() {
