@@ -283,12 +283,19 @@ public class Monom implements function{
 		} else return toString();
 	}
 
-	public boolean equals(Object m) {
-		if (m == null || !(m instanceof Monom)) {
+	public boolean equalsMonom(Monom m) {
+		if(m == null && this == null) return true;
+		else if (m == null)
 			return false;
-		} else {
-			return Math.abs(((Monom) m)._coefficient - this._coefficient)<=EPSILON && ((Monom) m)._power == this._power;
-		}
+		else
+			return Math.abs(((Monom) m)._coefficient - this._coefficient) <= EPSILON && ((Monom) m)._power == this._power;
 	}
-	
+
+	public boolean equals(Object obj) {
+		if(obj instanceof Monom) return equalsMonom((Monom)obj);
+		if(obj instanceof Polynom) return ((Polynom) obj).equals(this);
+		if(obj instanceof ComplexFunction) return ((ComplexFunction)obj).equals(this);
+		return false;
+	}
+
 }
