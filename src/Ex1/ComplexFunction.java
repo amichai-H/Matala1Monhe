@@ -193,7 +193,19 @@ public class ComplexFunction implements complex_function {
         return s;
     }
     public boolean equals(Object obj) {
-
+        if(obj instanceof function) {
+            double x = -2.5;
+            while(x <= 2.5) {
+                if(this.f(x) != ((function) obj).f(x)) return false;
+                x += 0.1;
+            }
+            for (int i = 0;i<32;i++) {
+                double x1 = (Math.random() * 1000000);
+                if (this.f(x1)!=((function) obj).f(x1)||this.f(x1*-1)!=((function) obj).f(x1*-1))
+                    return false;
+            }
+            return true;
+        }
         return false;
     }
 }
