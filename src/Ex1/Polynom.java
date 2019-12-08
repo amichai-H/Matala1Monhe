@@ -409,6 +409,7 @@ public class Polynom implements Polynom_able{
 	 */
 	@Override
 	public String toString(){
+		getRidOf0();
         if (DBUG){
             System.out.println("DBUG polynom status: " + " tostring");
         }if (DBUG){
@@ -424,8 +425,9 @@ public class Polynom implements Polynom_able{
         }
 		return temp;
 	}
+	@Override
 	public boolean equals(Object obj){
-		if(obj instanceof Polynom) return this.equals((Polynom)(obj));
+		if(obj instanceof Polynom) return this.equalsPolynom((Polynom)(obj));
 		if(obj instanceof Monom) {
 			if(this.myList.size()!=1) return false;
 			Monom m = new Monom(myList.get(0));

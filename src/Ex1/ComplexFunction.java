@@ -191,20 +191,35 @@ public class ComplexFunction implements complex_function {
         s = s.replaceAll("min","Min");
         return s;
     }
+    @Override
     public boolean equals(Object obj) {
         if(obj instanceof function) {
             double x = -2.5;
             while(x <= 2.5) {
-                if(Math.abs(this.f(x)-((function) obj).f(x))<=0.00001) return false;
+                if(!(Math.abs(this.f(x)-((function) obj).f(x))<=0.00001)) return false;
                 x += 0.1;
             }
             for (int i = 0;i<32;i++) {
-                double x1 = (Math.random() * 1000000);
-                if (Math.abs(this.f(x1)-((function) obj).f(x1))<0.00001||Math.abs(this.f(x1*-1)-((function) obj).f(x1*-1))<0.000001);
+                double x1 = round((Math.random() * 1000));
+                double myFX = round(this.f(x1));
+                double oFX =round(((function) obj).f(x1));
+
+                double minusFX = round(this.f(x1*-1));
+                double oMinusFX = round(((function) obj).f(x1*-1));
+
+                double lessThanEpsilon1 = Math.abs(myFX-oFX);
+                double lessThanEpsilon2 = Math.abs(minusFX-oMinusFX);
+
+                if (lessThanEpsilon1>0.00001||lessThanEpsilon2>0.00001)
                     return false;
             }
             return true;
         }
+
         return false;
+    }
+    private static double round (double d) {
+        d = (double) ((int) (d * 10000000)) / (10000000);
+        return d;
     }
 }
