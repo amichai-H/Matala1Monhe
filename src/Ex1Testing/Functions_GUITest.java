@@ -1,7 +1,5 @@
 
 import Ex1.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Partial JUnit + main test for the GUI_Functions class, expected output from the main:

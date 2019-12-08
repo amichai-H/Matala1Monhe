@@ -16,9 +16,14 @@ public class ComplexFunctionTest {
 
     @Test
     public void mul() {
-        ComplexFunction cf = new ComplexFunction(new Polynom("3x^5"));
-        cf.mul(new Polynom("4x+9x+7x"));
+        Polynom p1 = new Polynom("3x^5");
+        Polynom p2 = new Polynom("4x+9x+7x");
+        ComplexFunction cf = new ComplexFunction(p1);
+        cf.mul(p2);
+        p1.multiply(p2);
         System.out.println(cf);
+        System.out.println(p1);
+        assertEquals(true,p1.equals(cf));
     }
 
     @Test
