@@ -423,7 +423,7 @@ public class Polynom implements Polynom_able{
 		return temp;
 	}
 	public boolean equals(Object obj){
-		if(obj instanceof Polynom) return this.equals((Polynom)(obj);
+		if(obj instanceof Polynom) return this.equals((Polynom)(obj));
 		//else if(obj instanceof Monom) return this.toString().equals((obj.toString());
 		else if(obj instanceof Monom){
 			if(this.myList.size()!=1) return false;
@@ -431,6 +431,7 @@ public class Polynom implements Polynom_able{
 		}
 		else if(obj instanceof ComplexFunction) {
 			//problem, we need to think how to do it...
+            return  false;
 		}
 		else throw new RuntimeException("Object can be Polynom/ Monom/ ComplexFunction only");
 	}
