@@ -76,7 +76,7 @@ public class Polynom implements Polynom_able{
         			if (DBUG){
             System.out.println("DBUG polynom status: " + "try to add "+ p1+" with "+this);
         	}
-        Polynom_able copy = p1.copy();
+        Polynom_able copy = (Polynom_able) p1.copy();
 	    Iterator<Monom> iterator = copy.iteretor();
 	    while (iterator.hasNext()){
 	    	Monom m1 = iterator.next();
@@ -135,7 +135,7 @@ public class Polynom implements Polynom_able{
             System.out.println("DBUG polynom status: " + "substrate "+ this+ " by "+ p1);
         }
 		if (p1==this){
-			p1 = p1.copy();
+			p1 = (Polynom_able) p1.copy();
 
 		}
         if (DBUG){
@@ -184,10 +184,12 @@ public class Polynom implements Polynom_able{
 	 * @param p1 = the given Polynom to compare to.
 	 * @return true if this Polynom equals to p1, false else.
 	 */
-	@Override
-	public boolean equals(Polynom_able p1) {
-
-		return this.toString().equals(p1.toString());
+	public boolean equalsPolynom(Polynom p1) {
+		if(myList.size() != p1.myList.size()) return false;
+		for(int i=0; i<myList.size(); i++) {
+			if(!myList.get(i).equalsMonom(p1.myList.get(i))) return false;
+		}
+		return true;
 	}
 
 	/**
@@ -424,16 +426,13 @@ public class Polynom implements Polynom_able{
 	}
 	public boolean equals(Object obj){
 		if(obj instanceof Polynom) return this.equals((Polynom)(obj));
-		//else if(obj instanceof Monom) return this.toString().equals((obj.toString());
-		else if(obj instanceof Monom){
+		if(obj instanceof Monom) {
 			if(this.myList.size()!=1) return false;
-			return myList.get(0).equals(obj);
+			Monom m = new Monom(myList.get(0));
+			return m.equalsMonom((Monom)obj);
 		}
-		else if(obj instanceof ComplexFunction) {
-			//problem, we need to think how to do it...
-            return  false;
-		}
-		else throw new RuntimeException("Object can be Polynom/ Monom/ ComplexFunction only");
+		if(obj instanceof ComplexFunction) return ((ComplexFunction)obj).equals(this);
+		return false;
 	}
 
 
