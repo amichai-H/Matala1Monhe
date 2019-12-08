@@ -16,10 +16,9 @@ public class ComplexFunction implements complex_function {
             _bTF = new BinaryTreeFunction(initFromString(s));
         }
     }
-    public ComplexFunction(Polynom p) {
+    public ComplexFunction(function p){
         _bTF = new BinaryTreeFunction(p);
     }
-
     public ComplexFunction(String operation, function p1, function p2) {
 
         _bTF = new BinaryTreeFunction(findOpFromString(operation));
@@ -196,12 +195,12 @@ public class ComplexFunction implements complex_function {
         if(obj instanceof function) {
             double x = -2.5;
             while(x <= 2.5) {
-                if(this.f(x) != ((function) obj).f(x)) return false;
+                if(Math.abs(this.f(x)-((function) obj).f(x))<=0.00001) return false;
                 x += 0.1;
             }
             for (int i = 0;i<32;i++) {
                 double x1 = (Math.random() * 1000000);
-                if (this.f(x1)!=((function) obj).f(x1)||this.f(x1*-1)!=((function) obj).f(x1*-1))
+                if (Math.abs(this.f(x1)-((function) obj).f(x1))<0.00001||Math.abs(this.f(x1*-1)-((function) obj).f(x1*-1))<0.000001);
                     return false;
             }
             return true;
