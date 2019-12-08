@@ -102,4 +102,9 @@ public class ComplexFunctionTest {
     public void toString1() {
 
     }
+
+    /*public static void main(String[] args) {
+        ComplexFunction CP = new ComplexFunction("(3x^2+5x)*(2x)");
+        System.out.println(CP.toString());
+    }*/
 }

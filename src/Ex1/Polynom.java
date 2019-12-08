@@ -18,7 +18,7 @@ public class Polynom implements Polynom_able{
 
     public static boolean DBUG = false;
 
-    public ArrayList<Monom> myList;
+    private ArrayList<Monom> myList;
 
 	/**
 	 * A default constructor that initialize a Zero-Polynom (empty polynom, 0 Monoms)
@@ -423,8 +423,16 @@ public class Polynom implements Polynom_able{
 		return temp;
 	}
 	public boolean equals(Object obj){
-
-		return false;
+		if(obj instanceof Polynom) return this.equals((Polynom)(obj);
+		//else if(obj instanceof Monom) return this.toString().equals((obj.toString());
+		else if(obj instanceof Monom){
+			if(this.myList.size()!=1) return false;
+			return myList.get(0).equals(obj);
+		}
+		else if(obj instanceof ComplexFunction) {
+			//problem, we need to think how to do it...
+		}
+		else throw new RuntimeException("Object can be Polynom/ Monom/ ComplexFunction only");
 	}
 
 

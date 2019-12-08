@@ -35,5 +35,5 @@ public interface functions extends Collection<function>{
 	 * @param json_file - the file with all the parameters for the GUI window.
 	 * Note: is the file id not readable or in wrong format should use default values.
 	 */
-	public void drawFunctions(String json_file);
+	public void drawFunctions(String json_file) throws IOException;
 }
