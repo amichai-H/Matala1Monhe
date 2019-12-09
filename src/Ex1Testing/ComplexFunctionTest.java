@@ -100,6 +100,7 @@ public class ComplexFunctionTest {
         ComplexFunction complexFunction = new ComplexFunction("Plus",new Polynom("3x^2"),new Polynom("2x^4"));
         function complexFunction1 = complexFunction.initFromString("Plus(3.0x^5,Div(3.0x,2.0x^2))");
         System.out.println(complexFunction1);
+        System.out.println(complexFunction1.f(3));
         assertEquals(complexFunction1.toString(),"Plus(3.0x^5,Divid(3.0x,2.0x^2))");
     }
 
