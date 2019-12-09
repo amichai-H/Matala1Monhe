@@ -80,12 +80,12 @@ public class Monom implements function{
 	@Override
 	public function initFromString(String s) {
 		return null;
-	}
+	} //********************
 
 	@Override
 	public function copy() {
 		return null;
-	}
+	} //*********************
 
 	/**
 	 * A boolean method checking if the Monom represents Zero-Monom.
