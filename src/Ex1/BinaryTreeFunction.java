@@ -179,13 +179,16 @@ public class BinaryTreeFunction {
         throw new RuntimeException("ERR : no right opertion");
     }
 
-    public BinaryTreeFunction getLF() {
-        BinaryTreeFunction temp = new BinaryTreeFunction(_root._left);
-        return temp;
+    public function getLF() {
+        if (_root._operation==Operation.None){
+            return this._root._value;
+        }
+        BinaryTreeFunction binaryTreeFunction = new BinaryTreeFunction(_root._left);
+       return new ComplexFunction( binaryTreeFunction);
     }
-    public BinaryTreeFunction getRF() {
+    public function getRF() {
         BinaryTreeFunction temp = new BinaryTreeFunction(_root._right);
-        return temp;
+        return new ComplexFunction(temp);
     }
     public Operation getOP() {
         return _root.get_operation();
@@ -232,8 +235,6 @@ public class BinaryTreeFunction {
     private void createBtree(String s){
         _root = new Node(Operation.None);
         recursBild(s,_root);
-
-
     }
     private void recursBild(String s,Node current){
         if(ifIsOp(s)){

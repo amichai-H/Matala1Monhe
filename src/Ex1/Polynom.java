@@ -154,6 +154,7 @@ public class Polynom implements Polynom_able{
         if (DBUG){
             System.out.println("DBUG polynom status: " + " after subtract: " + this );
         }
+        getRidOf0();
 	}
 	/**
 	 * Method that multiplies this Polynom by Polynom p1
@@ -177,6 +178,7 @@ public class Polynom implements Polynom_able{
 			temp = this.copyP();
 		}
 		this.myList = final_poly.myList;
+		getRidOf0();
 	}
 
 	/**
@@ -185,9 +187,10 @@ public class Polynom implements Polynom_able{
 	 * @return true if this Polynom equals to p1, false else.
 	 */
 	public boolean equalsPolynom(Polynom p1) {
+		getRidOf0();
 		if(myList.size() != p1.myList.size()) return false;
 		for(int i=0; i<myList.size(); i++) {
-			if(!myList.get(i).equalsMonom(p1.myList.get(i))) return false;
+			if(!(myList.get(i).equalsMonom(p1.myList.get(i)))) return false;
 		}
 		return true;
 	}
@@ -401,6 +404,7 @@ public class Polynom implements Polynom_able{
 			first = false;
 		}
 		addMonom(temp);
+		getRidOf0();
 	}
 
 	/**
@@ -427,6 +431,7 @@ public class Polynom implements Polynom_able{
 	}
 	@Override
 	public boolean equals(Object obj){
+		getRidOf0();
 		if(obj instanceof Polynom) return this.equalsPolynom((Polynom)(obj));
 		if(obj instanceof Monom) {
 			if(this.myList.size()!=1) return false;

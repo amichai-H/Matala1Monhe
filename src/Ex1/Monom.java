@@ -290,7 +290,7 @@ public class Monom implements function{
 		else
 			return Math.abs(((Monom) m)._coefficient - this._coefficient) <= EPSILON && ((Monom) m)._power == this._power;
 	}
-
+@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Monom) return equalsMonom((Monom)obj);
 		if(obj instanceof Polynom) return ((Polynom) obj).equals(this);

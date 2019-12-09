@@ -2,9 +2,9 @@ import Ex1.ComplexFunction;
 import Ex1.Monom;
 import Ex1.Polynom;
 import Ex1.Polynom_able;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.Assert.*;
 
 class PolynomTest {
 
@@ -15,12 +15,12 @@ class PolynomTest {
         double[] expected_y_values = {39,0,-301,202.125,146.559,-5526};
         for(int i=0; i<x_values.length; i++) {
             double actual_y = p.f(x_values[i]);
-            assertEquals(actual_y, expected_y_values[i]);
+            assertTrue(Math.abs(actual_y-expected_y_values[i])<0.0001);
         }
     }
 
     @Test
-    void initFromString() {
+    public void initFromString() {
 
     }
 
@@ -28,23 +28,24 @@ class PolynomTest {
     void add_polynom_able() {
         Polynom p0 = new Polynom("3x^6+5+4x");
         Polynom p1 = new Polynom("-2x^6-5");
+        p0.add(p1);
         Polynom p0Ap1 = new Polynom("x^6+4x");
+        assertEquals(p0Ap1,p0);
 
         Polynom p2 = new Polynom("0");
         Polynom p3 = new Polynom("15x-3");
         Polynom p2Ap3 = new Polynom("15x-3");
+        p2.add(p3);
+        assertEquals(p2Ap3, p2);
 
         Polynom p4 = new Polynom("-9+x^2");
         Polynom p5 = new Polynom("-x^2+4.5x^3");
+        p4.add(p5);
         Polynom p4Ap5 = new Polynom("4.5x^3-9");
+        assertEquals(p4Ap5, p4);
 
-        Polynom_able[] p = {p0,p1,p2,p3,p4,p5};
-        Polynom[] expected = {p0Ap1,p2Ap3,p4Ap5};
 
-        for(int i=0; i<expected.length; i=i+2) {
-            p[i].add(p[i+1]);
-            assertEquals(p[i], expected[i]);
-        }
+
     }
 
     @Test
@@ -52,23 +53,23 @@ class PolynomTest {
         Polynom p0 = new Polynom("3x^6+5+4x");
         Monom m0 = new Monom("2.5x");
         Polynom p0Am0 = new Polynom("3x^6+6.5x+5");
+        p0.add(m0);
+        assertEquals(p0Am0,p0);
 
         Polynom p1 = new Polynom("0");
         Monom m1 = new Monom("-7x^8");
         Polynom p1Am1 = new Polynom("-7x^8");
+        p1.add(m1);
+        assertEquals(p1Am1,p1);
+
 
         Polynom p2 = new Polynom("-9+x^2");
         Monom m2 = new Monom("-x^2");
         Polynom p2Am2 = new Polynom("-9");
+        p2.add(m2);
+        assertEquals(p2Am2,p2);
 
-        Polynom[] p = {p0,p1,p2};
-        Monom[] m = {m0,m1,m2};
-        Polynom[] expected = {p0Am0,p1Am1,p2Am2};
 
-        for(int i=0; i<expected.length; i++) {
-            p[i].add(m[i]);
-            assertEquals(p[i], expected[i]);
-        }
     }
 
     @Test
@@ -76,22 +77,25 @@ class PolynomTest {
         Polynom p0 = new Polynom("3x^6+5+4x");
         Polynom p1 = new Polynom("-2x^6-5");
         Polynom p0Sp1 = new Polynom("5x^6+4x+10");
+        p0.substract(p1);
+        assertEquals(p0Sp1, p0);
 
         Polynom p2 = new Polynom("0");
         Polynom p3 = new Polynom("15x-3");
         Polynom p2Sp3 = new Polynom("-15x+3");
+        p2.substract(p3);
+        assertEquals(p2Sp3, p2);
 
         Polynom p4 = new Polynom("-9+x^2");
         Polynom p5 = new Polynom("-x^2+4.5x^3");
         Polynom p4Sp5 = new Polynom("2x^2-4.5x^3-9");
+        p4.substract(p5);
+        assertEquals(p4Sp5, p4);
 
-        Polynom_able[] p = {p0,p1,p2,p3,p4,p5};
-        Polynom[] expected = {p0Sp1,p2Sp3,p4Sp5};
+        p4Sp5.substract(p4Sp5);
+        assertEquals(new Polynom("0"),p4Sp5);
 
-        for(int i=0; i<expected.length; i=i+2) {
-            p[i].substract(p[i+1]);
-            assertEquals(p[i], expected[i]);
-        }
+
     }
 
     @Test
@@ -99,45 +103,50 @@ class PolynomTest {
         Polynom p0 = new Polynom("3x^6+5+4x");
         Polynom p1 = new Polynom("1");
         Polynom p0Mp1 = new Polynom("3x^6+5+4x");
+        p0.multiply(p1);
+        assertEquals(p0Mp1,p0);
 
         Polynom p2 = new Polynom("0");
         Polynom p3 = new Polynom("15x-3");
         Polynom p2Mp3 = new Polynom("0");
+        p2.multiply(p3);
+        assertEquals(p2Mp3, p2);
 
         Polynom p4 = new Polynom("-9+x^2");
         Polynom p5 = new Polynom("5x+2");
         Polynom p4Mp5 = new Polynom("-45x-18+5x^3+2x^2");
+        p4.multiply(p5);
+        assertEquals(p4Mp5, p4);
 
-        Polynom_able[] p = {p0,p1,p2,p3,p4,p5};
-        Polynom[] expected = {p0Mp1,p2Mp3,p4Mp5};
-
-        for(int i=0; i<expected.length; i=i+2) {
-            p[i].multiply(p[i+1]);
-            assertEquals(p[i], expected[i]);
+        Polynom p6 = new Polynom("2x");
+        for (int i = 0 ; i<3;i++){
+            p6.multiply(p6);
         }
+        assertEquals(p6, new Polynom("256x^8"));
+
+
     }
 
     @Test
     void equalsPolynom() {
         Polynom p0 = new Polynom("3x^6+5+4x");
         Polynom p1 = new Polynom("2x+2x+5-x+3x^6+x");
+        boolean b = p0.equalsPolynom(p1);
+        assertTrue(b);
         //true
 
         Polynom p2 = new Polynom("5x+6+10x-9");
         Polynom p3 = new Polynom("15x-3+0");
+        b = p2.equalsPolynom(p3);
+        assertTrue(b);
         //true
 
         Polynom p4 = new Polynom("-9+x^2");
         Polynom p5 = new Polynom("-9+x^2+x^2");
+        b = p4.equalsPolynom(p5);
+        assertFalse(b);
         //false
 
-        Polynom[] p = {p0,p1,p2,p3,p4,p5};
-        boolean[] expected = {true,true,false};
-
-        for(int i=0; i<expected.length; i=i+2) {
-            boolean b = p[i].equalsPolynom(p[i+1]);
-            assertEquals(b, expected[i]);
-        }
     }
 
     @Test
@@ -159,19 +168,18 @@ class PolynomTest {
     void area() {
         Polynom p = new Polynom("x^2+3x");
         double expected = 22.5;
-        double results = p.area(0,3,0.00001);
+        double results = p.area(0,3,0.000001);
         double check = Math.abs(expected-results);
         boolean b = (check>=0) && (check <= 0.00001);
-
-        assertEquals(b, true);
+        assertTrue(b);
 
         p = new Polynom("x^2-3x+4x^3");
         expected = 5.0/6.0;
-        results =p.area(-1,0.5,0.00001);
+        results =p.area(-1,0.5,0.000001);
         check = Math.abs(expected-results);
-        // b = b from the first check
+        b = (check>=0) && (check <= 0.00001);
 
-        assertEquals(b, true);
+        assertTrue(b);
     }
 
     @Test
@@ -182,27 +190,25 @@ class PolynomTest {
         double check = Math.abs(expected-result);
         boolean b = (check>=0) && (check <= 0.0001);
 
-        assertEquals(b, true);
+        assertTrue(b);
     }
 
     @Test
     void derivative() {
         Polynom p0 = new Polynom("3x^6+5+4x");
         Polynom p1 = new Polynom("18x^5+4");
+        Polynom_able p=p0.derivative();
+        assertEquals(p1, p);
 
         Polynom p2 = new Polynom("5x+6+10x-9");
         Polynom p3 = new Polynom("15");
+        p=p2.derivative();
+        assertEquals(p3, p);
 
         Polynom p4 = new Polynom("-9+5.5x^3");
         Polynom p5 = new Polynom("16.5x^2");
-
-        Polynom[] p = {p0,p2,p4};
-        Polynom[] expected = {p1,p3,p5};
-
-        for(int i=0; i<expected.length; i++) {
-            p[i].derivative();
-            assertEquals(p[i], expected[i]);
-        }
+        p=p4.derivative();
+        assertEquals(p5, p);
     }
 
     @Test
@@ -210,19 +216,15 @@ class PolynomTest {
         Polynom p0 = new Polynom("3x^6+5+4x");
         Monom m0 = new Monom("x");
         Polynom p0Mm0 = new Polynom("3x^7+5x+4x^2");
+        p0.multiply(m0);
+        assertEquals(p0Mm0, p0);
 
         Polynom p1 = new Polynom("0");
         Monom m1 = new Monom("-7x^8");
         Polynom p1Mm1 = new Polynom("0");
+        p1.multiply(m1);
+        assertEquals(p1Mm1, p1);
 
-        Polynom[] p = {p0,p1};
-        Monom[] m = {m0,m1};
-        Polynom[] expected = {p0Mm0,p1Mm1};
-
-        for(int i=0; i<expected.length; i++) {
-            p[i].multiply(m[i]);
-            assertEquals(p[i], expected[i]);
-        }
     }
 
     @Test
@@ -264,7 +266,7 @@ class PolynomTest {
 
         //CF equals to Polynom
 
-        ComplexFunction cf = new ComplexFunction("");
+       // ComplexFunction cf = new ComplexFunction("");
     }
 
     @Test

@@ -2,14 +2,10 @@ package Ex1;
 
 import java.awt.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class Functions_GUI implements functions {
     public static boolean divByZero = false;
@@ -61,23 +57,21 @@ public class Functions_GUI implements functions {
         double oneYmeasure = 1/rangeY;
         double rangeX = Math.abs(rxMin) + Math.abs(rxMax);
         double oneXmeasure = 1/rangeX;
-        double zeroX = -1,zeroY = -1;
-        if (ry.get_min()<=0){
+        double zeroX,zeroY;
+
             zeroX = -1*oneYmeasure*ryMin;
-        }
-        if (rx.get_min()<=0){
             zeroY = -1*oneXmeasure*rxMin;
-        }
+
         StdDraw.setPenRadius(0.01);
-        StdDraw.line(zeroY,0,zeroY,1);//y
-        StdDraw.line(0,zeroX,1,zeroX);//x
+        StdDraw.line(zeroY,0,zeroY,1);//draw Y
+        StdDraw.line(0,zeroX,1,zeroX);//draw X
         StdDraw.setPenRadius();
         double _X = rxMin;
         double _Y = ryMin;
         for (double i = 0,j=0;i<1||j<1;i=i+oneYmeasure,j=j+oneXmeasure){
-            StdDraw.line(zeroY-0.01,i,zeroY+0.01,i);//y
+            StdDraw.line(zeroY-0.01,i,zeroY+0.01,i);//y short line
             StdDraw.setPenColor(Color.gray);
-            StdDraw.line(0,i,1,i);//y
+            StdDraw.line(0,i,1,i);//draw | | | |  at Y
             StdDraw.setPenColor(Color.black);
 
 
@@ -88,11 +82,11 @@ public class Functions_GUI implements functions {
             if (_X!=0) {
                 StdDraw.text(j, zeroX + 0.02, _X + "");
             }
-            _Y++;
-            _X++;
-            StdDraw.line(j,zeroX-0.01,j,zeroX+0.01);//x
+            _Y=_Y+1;
+            _X =_X+1;
+            StdDraw.line(j,zeroX-0.01,j,zeroX+0.01);//x short line
             StdDraw.setPenColor(Color.gray);
-            StdDraw.line(j,0,j,1);//x
+            StdDraw.line(j,0,j,1);//draw | | | |  at X
             StdDraw.setPenColor(Color.black);
 
         }
@@ -101,6 +95,7 @@ public class Functions_GUI implements functions {
         for(function function1: arrayList){
             StdDraw.setPenColor(Colors[c++]);
             for(double i = rxMin ;i<rxMax;i=i+epsilon){
+                    StdDraw.setPenRadius(0.004);
                     double x0= zeroY + i*oneXmeasure;
                     double x1 = zeroY + (i + epsilon)*oneXmeasure;
 
@@ -143,6 +138,7 @@ public class Functions_GUI implements functions {
         }catch (Exception e){
             throw new RuntimeException(e);
         }
+        reader.close();
 
     }
     private double getMinOrMax(String s, boolean max){
@@ -228,5 +224,8 @@ public class Functions_GUI implements functions {
     }
 
     public void drawFunctions() {
+        int width=800, height=600 ,resolution = 200;
+        Range rx=new Range(-11,11),ry = new Range(-6,11);
+        drawFunctions(width,height,rx,ry,resolution);
     }
 }

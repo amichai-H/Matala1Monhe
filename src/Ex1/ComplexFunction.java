@@ -6,7 +6,7 @@ public class ComplexFunction implements complex_function {
     private   ComplexFunction(){
 
     }
-    private ComplexFunction(BinaryTreeFunction b){
+    public ComplexFunction(BinaryTreeFunction b){
         _bTF = b;
     }
     public ComplexFunction(String  s){
@@ -77,19 +77,15 @@ public class ComplexFunction implements complex_function {
 
     @Override
     public function left() {
-        ComplexFunction temp = new ComplexFunction();
-        temp._bTF = _bTF.getLF();
-        if (temp._bTF.getOP()==Operation.None){
+        if (_bTF.getOP()==Operation.None){
             return _bTF.get_function();
         }
-        return temp;
+        return _bTF.getLF();
     }
 
     @Override
     public function right() {
-        ComplexFunction temp = new ComplexFunction();
-        temp._bTF = _bTF.getRF();
-        return temp;
+        return _bTF.getRF();
     }
 
     @Override
