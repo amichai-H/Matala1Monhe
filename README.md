@@ -124,12 +124,12 @@ Example: "plus(2x,3x)" , "min(plus(3x,max(x^2,2x)),4x)"
 to be more accurate we define it like that -> opertion(function,function)
 Lets define opertion: mul, div, sub, plus, min, max, comp
 
-#Function Gui
-This class will open first axis graph and draw the function that you add with the method add.
+# Function Gui
+1. This class will open first axis graph and draw the function that you add with the method add.
 To use the Draw function you can write in a text file function in JSON format "index":"function",
 and use the method initFromFile.
-Example:
-"
+2. Example:
+3. "
 {
 "0":"-1.0x^4+2.4x^2+3.1","1":"0.1x^5-1.2x+5.0"
 ,"2":"Plus(-1.0x^4+2.4x^2+3.1,0.1x^5-1.2x+5.0)"
@@ -138,8 +138,8 @@ Example:
 } 
 "
 
-And you can Draw function From  text file
-Exmple:
+4. And you can Draw function From  text file
+5. Exmple:
 "
 {
 	"Width":1000,
