@@ -1,7 +1,4 @@
-import Ex1.Monom;
-import Ex1.Polynom;
-import Ex1.Polynom_able;
-import Ex1.function;
+import Ex1.*;
 import org.junit.jupiter.api.Test;
 
 import static org.testng.Assert.*;
@@ -47,9 +44,6 @@ class PolynomTest {
         p4.add(p5);
         Polynom p4Ap5 = new Polynom("4.5x^3-9");
         assertEquals(p4Ap5, p4);
-
-
-
     }
 
     @Test
@@ -72,8 +66,6 @@ class PolynomTest {
         Polynom p2Am2 = new Polynom("-9");
         p2.add(m2);
         assertEquals(p2Am2,p2);
-
-
     }
 
     @Test
@@ -98,8 +90,6 @@ class PolynomTest {
 
         p4Sp5.substract(p4Sp5);
         assertEquals(new Polynom("0"),p4Sp5);
-
-
     }
 
     @Test
@@ -127,8 +117,6 @@ class PolynomTest {
             p6.multiply(p6);
         }
         assertEquals(p6, new Polynom("256x^8"));
-
-
     }
 
     @Test
@@ -150,7 +138,6 @@ class PolynomTest {
         b = p4.equalsPolynom(p5);
         assertFalse(b);
         //false
-
     }
 
     @Test
@@ -267,10 +254,19 @@ class PolynomTest {
         m = new Monom("3x^5");
         assertFalse(p.equals(m));
 
-
         //CF equals to Polynom
 
-       // ComplexFunction cf = new ComplexFunction("");
+        ComplexFunction cf = new ComplexFunction("Plus(2x^3,x^3)");
+        p = new Polynom("3x^3");
+        assertTrue(cf.equals(p));
+
+        cf = new ComplexFunction("Times(Plus(9x^2,-4x^2-5x^2),2x^3+4)");
+        p = new Polynom("0");
+        assertTrue(cf.equals(p));
+
+        cf = new ComplexFunction("Plus(Divid(3x^3,x^3),8)");
+        p = new Polynom("3x^3");
+        assertFalse(cf.equals(p));
     }
 
     @Test

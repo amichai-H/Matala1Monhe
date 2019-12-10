@@ -269,7 +269,11 @@ public class BinaryTreeFunction {
     }
 
     private boolean ifIsOp(String s){
-        if(s.charAt(0)=='P'||s.charAt(0)=='D'||s.charAt(0)=='C'||s.charAt(0)=='M'||s.charAt(0)=='N'||s.charAt(0)=='E'){
+        if (s.charAt(0)=='x'||s.charAt(0)=='X'){
+            return false;
+        }
+        if((s.charAt(0)>'a'&&s.charAt(0)<'z')||(s.charAt(0)>'A'&&s.charAt(0)<'Z')){
+
             return true;
         }
         else {

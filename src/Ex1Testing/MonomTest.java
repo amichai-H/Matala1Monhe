@@ -1,7 +1,11 @@
+import Ex1.ComplexFunction;
 import Ex1.Monom;
-import org.junit.Test;
+import Ex1.Polynom;
+import Ex1.function;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.testng.Assert.*;
+
 
 public class MonomTest {
 	/**
@@ -19,75 +23,20 @@ public class MonomTest {
 
 	}
 	 **/
-	/*
-
-	@Test
-	public void isZeroTest(){
-		Monom m = new Monom("0");
-		myAssert(m.isZero(),m +"Err: is zero","isZeroTest");
-
-	}
-	@Test
-	public void addTest(){
-		Monom m1 = new Monom("3*x^2");
-		Monom m2 = new Monom("4x^2");
-		Monom m1p2 = new Monom("7x^2");
-		m1.add(m2);
-		myAssert(m1.equals(m1p2),"problem with add function","addTest1");
-
-		try{
-			Monom m3 = new Monom("x^5");
-			Monom m4  = new Monom("x^3");
-			m3.add(m4);
-			myAssert(false,"the system added an unadded monom","addTest2");
-		} catch (Exception e){
-			myAssert(true,"","addTest2");
-
-		}
-
-	}
-	@Test
-	public void multipyTest() {
-		Monom m = new Monom("2x^5");
-		Monom m2 = new Monom("4x^2");
-		Monom mMulM2 = new Monom("8x^7");
-		m.multipy(m2);
-		myAssert(mMulM2.equals(m), "fail!! ", "multipyTest");
-	}
-
-	@Test
-	public void toStringTest(){
-		Monom m = new Monom("3");
-		Monom m1 = new Monom("3x^2");
-		Monom m2 = new Monom("x^4");
-		Monom mm = new Monom(m.toString());
-		Monom mm1 = new Monom(m1.toString());
-		Monom mm2 = new Monom(m2.toString());
-
-		myAssert(m.equals(mm),"problem with string of: "+m,"toStringTest1");
-		myAssert(m1.equals(mm1),"problem with string of: "+m1,"toStringTest2");
-		myAssert(m2.equals(mm2),"problem with string of: "+m2,"toStringTest3");
-
-	} */
 
 	@Test
 	void derivative() {
-		Monom m0 = new Monom("3x^6");
-		Monom m1 = new Monom("18x^5");
+		Monom m = new Monom("3x^6");
+		Monom mD = new Monom("18x^5");
+		assertEquals(m.derivative(), mD);
 
-		Monom m2 = new Monom("-3");
-		Monom m3 = new Monom("0");
+		m = new Monom("-3");
+		mD = new Monom("0");
+		assertEquals(m.derivative(), mD);
 
-		Monom m4 = new Monom("-5.5x");
-		Monom m5 = new Monom("-5.5");
-
-		Monom[] m = {m0,m2,m4};
-		Monom[] expected = {m1,m3,m5};
-
-		for(int i=0; i<expected.length; i++) {
-			m[i].derivative();
-			assertEquals(m[i], expected[i]);
-		}
+		m = new Monom("-5.5x");
+		mD = new Monom("-5.5");
+		assertEquals(m.derivative(), mD);
 	}
 
 	@Test
@@ -103,11 +52,21 @@ public class MonomTest {
 
 	@Test
 	void initFromString() {
+		Monom m = new Monom("7x^10");
 
+		function f = m.initFromString("7x^10");
+
+		assertEquals(m,f);
 	}
 
 	@Test
 	void copy() {
+		Monom m = new Monom("3x^2");
+		function f = m.copy();
+		assertEquals(m,f);
+
+		m.multipy(new Monom("0"));
+		assertNotEquals(m,f);
 	}
 
 	@Test
@@ -126,26 +85,104 @@ public class MonomTest {
 
 	@Test
 	void add() {
+		Monom m1 = new Monom("4x^2");
+		Monom m2 = new Monom("-x^2");
+		Monom mA = new Monom("3x^2");
+		m1.add(m2);
+		assertEquals(m1, mA);
+
+		m1 = new Monom("5.5x^4");
+		m2 = new Monom("-5.5x^4");
+		mA = new Monom("0");
+		m1.add(m2);
+		assertEquals(m1,mA);
+
+		m1 = new Monom("1.2x^0");
+		m2 = new Monom("0.6");
+		mA = new Monom("1.8");
+		m1.add(m2);
+		assertEquals(m1, mA);
 	}
 
 	@Test
 	void multipy() {
+		Monom m1 = new Monom("8x^1");
+		Monom m2 = new Monom("2x^2");
+		Monom mM = new Monom("16x^3");
+		m1.multipy(m2);
+		assertEquals(m1,mM);
+
+		m1 = new Monom("-2.5x^0");
+		m2 = new Monom("x^9");
+		mM = new Monom("-2.5x^9");
+		m1.multipy(m2);
+		assertEquals(m1,mM);
+
+		m1 = new Monom("-0.5");
+		m2 = new Monom("2x^5");
+		mM = new Monom("-x^5");
+		m1.multipy(m2);
+		assertEquals(m1,mM);
 	}
 
 	@Test
 	void testToString() {
-	}
+		Monom m = new Monom("2x^4");
+		String expected = "2.0x^4";
+		assertEquals(expected, m.toString());
 
-	@Test
-	void toStringToPolynom() {
+		m = new Monom("-1x^7");
+		expected = "-x^7";
+		assertEquals(expected, m.toString());
+
+		m = new Monom("-9x^0");
+		expected = "-9.0";
+		assertEquals(expected, m.toString());
 	}
 
 	@Test
 	void equalsMonom() {
+		Monom m1 = new Monom("x^3");
+		Monom m2 = new Monom("1.0x^3");
+		boolean b = m1.equalsMonom(m2);
+		assertTrue(b);
+		//true
+
+		m1 = new Monom("-x^0");
+		m2 = new Monom("-1");
+		b = m1.equalsMonom(m2);
+		assertTrue(b);
+		//true
+
+		m1 = new Monom("7x^2");
+		m2 = new Monom("7.0x^1");
+		b = m1.equalsMonom(m2);
+		assertFalse(b);
+		//false
 	}
 
 	@Test
 	void testEquals() {
+		//Polynom equals to Monom
+
+		Monom m = new Monom("2x^4");
+		Polynom p = new Polynom("2x^4");
+
+		assertTrue(m.equals(p));
+
+		//CF equals to Monom
+
+		ComplexFunction cf = new ComplexFunction("Plus(2x^3,x^3)");
+		m = new Monom("3x^3");
+		assertTrue(cf.equals(m));
+
+		cf = new ComplexFunction("Times(Plus(9x^2,-4x^2-5x^2),2x^3+4)");
+		m = new Monom("0");
+		assertTrue(cf.equals(m));
+
+		cf = new ComplexFunction("Plus(Divid(3x^3,x^3),8)");
+		m = new Monom("3x^3");
+		assertFalse(cf.equals(m));
 	}
 }
 

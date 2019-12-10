@@ -119,7 +119,6 @@ public class ComplexFunction implements complex_function {
        s1 = s1.replaceAll(" ","");
        s1=fixText(s1);
 
-
      return new ComplexFunction(_bTF.createFunctionFromString(s1));
     }
 

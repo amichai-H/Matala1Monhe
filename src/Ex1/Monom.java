@@ -31,6 +31,8 @@ public class Monom implements function{
 		}
 		this.set_coefficient(a);
 		this.set_power(b);
+		fixMe();
+
 	}
 
 	/**
@@ -79,13 +81,13 @@ public class Monom implements function{
 
 	@Override
 	public function initFromString(String s) {
-		return null;
-	} //********************
+		return new Monom(s);
+	}
 
 	@Override
 	public function copy() {
-		return null;
-	} //*********************
+		return new Monom(this);
+	}
 
 	/**
 	 * A boolean method checking if the Monom represents Zero-Monom.
@@ -122,6 +124,7 @@ public class Monom implements function{
 				System.out.println("added Monom: "+this+" and "+m );
 			}
 		}
+		fixMe();
 	}
 
 	/**
@@ -137,6 +140,7 @@ public class Monom implements function{
 		if (DBUG){
 			System.out.println("multy result: " + this );
 		}
+		fixMe();
 	}
 
 	/**
@@ -296,6 +300,11 @@ public class Monom implements function{
 		if(obj instanceof Polynom) return ((Polynom) obj).equals(this);
 		if(obj instanceof ComplexFunction) return ((ComplexFunction)obj).equals(this);
 		return false;
+	}
+	private void fixMe(){
+		if (this._coefficient==0){
+			this._power=0;
+		}
 	}
 
 }
