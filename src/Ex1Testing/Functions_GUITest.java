@@ -1,5 +1,6 @@
 
 import Ex1.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * Partial JUnit + main test for the GUI_Functions class, expected output from the main:
@@ -49,9 +50,9 @@ class Functions_GUITest {
 	//	_data = FunctionsFactory();
 	//}
 
-	//@Test
+	@Test
 	void testFunctions_GUI() {
-	//	fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	//@Test

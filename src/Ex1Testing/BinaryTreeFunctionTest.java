@@ -2,9 +2,8 @@ import Ex1.BinaryTreeFunction;
 import Ex1.Operation;
 import Ex1.Polynom;
 import org.junit.Test;
-//import org.junit.jupiter.api.BeforeEach;
 
-import static org.junit.Assert.*;
+//import org.junit.jupiter.api.BeforeEach;
 
 public class BinaryTreeFunctionTest {
    // @BeforeEach

@@ -3,7 +3,8 @@ import Ex1.Polynom;
 import Ex1.function;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class ComplexFunctionTest {
 
