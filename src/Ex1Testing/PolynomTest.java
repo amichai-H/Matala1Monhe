@@ -21,7 +21,11 @@ class PolynomTest {
 
     @Test
     public void initFromString() {
+        Polynom p = new Polynom("3x+4");
 
+        function f = p.initFromString("3x+4");
+
+        assertEquals(f,p);
     }
 
     @Test
@@ -286,6 +290,5 @@ class PolynomTest {
         p.multiply(new Polynom("0"));
         assertNotEquals(p,pcopy);
     }
-
 
 }
