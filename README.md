@@ -114,7 +114,7 @@ Method that represents the Polynom as a string (using a private method at Monom'
 The method returns the Polynom as string: "a1x^b1+a2x^b2+...+anx^bn" (n=num of Monoms in the Polynom).
 
 # Complex Function class:
-this class represent a complex function ass function * function , function / function ,
+This class represent a complex function ass function * function , function / function ,
 Max(function,function) , Min(function,function) , function(function) , function + function , function - function
 
 function : Monom or Polynom or Complex Function.
@@ -124,4 +124,28 @@ Example: "plus(2x,3x)" , "min(plus(3x,max(x^2,2x)),4x)"
 to be more accurate we define it like that -> opertion(function,function)
 Lets define opertion: mul, div, sub, plus, min, max, comp
 
+#Function Gui
+This class will open first axis graph and draw the function that you add with the method add.
+To use the Draw function you can write in a text file function in JSON format "index":"function",
+and use the method initFromFile.
+Example:
+"
+{
+"0":"-1.0x^4+2.4x^2+3.1","1":"0.1x^5-1.2x+5.0"
+,"2":"Plus(-1.0x^4+2.4x^2+3.1,0.1x^5-1.2x+5.0)"
+,"3":"Plus(Divid(x+1.0,Times(Times(x+3.0,x-2.0),x-4.0)),2.0)"
+,"4":"Divid(Plus(-1.0x^4+2.4x^2+3.1,0.1x^5-1.2x+5.0),-1.0x^4+2.4x^2+3.1)"
+} 
+"
 
+And you can Draw function From  text file
+Exmple:
+"
+{
+	"Width":1000,
+	"Height":600,
+	"Resolution":1000,
+	"Range_X":[-10,10],
+	"Range_Y":[-5,10]
+}
+"
