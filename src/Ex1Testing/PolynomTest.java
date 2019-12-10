@@ -1,7 +1,7 @@
-import Ex1.ComplexFunction;
 import Ex1.Monom;
 import Ex1.Polynom;
 import Ex1.Polynom_able;
+import Ex1.function;
 import org.junit.jupiter.api.Test;
 
 import static org.testng.Assert.*;
@@ -252,17 +252,17 @@ class PolynomTest {
         Polynom p = new Polynom("2x^4");
         Monom m = new Monom("2x^4");
 
-        assertEquals(p.equals(m), true);
+        assertTrue(p.equals(m));
 
         p = new Polynom("3x+5-5");
         m = new Monom("3x");
+        assertTrue(p.equals(m));
 
-        assertEquals(p.equals(m), true);
 
         p = new Polynom("3x^5+2-1");
         m = new Monom("3x^5");
+        assertFalse(p.equals(m));
 
-        assertEquals(p.equals(m), false);
 
         //CF equals to Polynom
 
@@ -271,12 +271,21 @@ class PolynomTest {
 
     @Test
     void copy() {
-
+        Polynom p =new Polynom("3x+1");
+        function f = p.copy();
+        assertEquals(p,f);
+        p.multiply(new Polynom("0"));
+        assertNotEquals(p,f);
     }
 
     @Test
     void copyP() {
-
+        Polynom p =new Polynom("3x+1");
+        Polynom pcopy= p.copyP();
+        assertEquals(p,pcopy);
+        p.multiply(new Polynom("0"));
+        assertNotEquals(p,pcopy);
     }
+
 
 }
