@@ -1,11 +1,13 @@
 package Ex1;
 
-import java.awt.*;
-import java.io.*;
-import java.util.*;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+
+import java.awt.*;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class Functions_GUI implements functions {
     public static boolean divByZero = false;
@@ -93,6 +95,9 @@ public class Functions_GUI implements functions {
         double epsilon = Math.abs(rxMax-rxMin)/resolution;
         int c = 0;
         for(function function1: arrayList){
+            if(c>=Colors.length){
+                c=0;
+            }
             StdDraw.setPenColor(Colors[c++]);
             for(double i = rxMin ;i<rxMax;i=i+epsilon){
                     StdDraw.setPenRadius(0.004);

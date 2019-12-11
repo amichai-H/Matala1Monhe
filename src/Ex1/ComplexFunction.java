@@ -20,59 +20,72 @@ public class ComplexFunction implements complex_function {
         _bTF = new BinaryTreeFunction(p);
     }
     public ComplexFunction(String operation, function p1, function p2) {
-
+        operation = fixText(operation);
         _bTF = new BinaryTreeFunction(findOpFromString(operation));
         _bTF.add(p1,true);
         _bTF.add(p2,false);
     }
 
     public ComplexFunction(String operation, function p, ComplexFunction cf) {
+        operation = fixText(operation);
         _bTF = new BinaryTreeFunction(findOpFromString(operation));
         _bTF.add(p,true);
         _bTF.add(cf._bTF,false);
 
     }
     public ComplexFunction(String operation, ComplexFunction cf,function p) {
+        operation = fixText(operation);
         _bTF = new BinaryTreeFunction(findOpFromString(operation));
         _bTF.add(p,false);
         _bTF.add(cf._bTF,true);
     }
+    public ComplexFunction(Operation operation, function p1, function p2) {
 
-    private void operationAdd(Operation operation, function f1){
-        BinaryTreeFunction temp = new BinaryTreeFunction(operation);
-        temp.add(f1, false);
-        temp.add(this._bTF, true);
-        _bTF = temp;
+        _bTF = new BinaryTreeFunction(findOpFromString(operation.toString()));
+        _bTF.add(p1,true);
+        _bTF.add(p2,false);
+    }
+
+    public ComplexFunction(Operation operation, function p, ComplexFunction cf) {
+        _bTF = new BinaryTreeFunction(findOpFromString(operation.toString()));
+        _bTF.add(p,true);
+        _bTF.add(cf._bTF,false);
+
+    }
+    public ComplexFunction(Operation operation, ComplexFunction cf,function p) {
+        _bTF = new BinaryTreeFunction(findOpFromString(operation.toString()));
+        _bTF.add(p,false);
+        _bTF.add(cf._bTF,true);
     }
 
     @Override
     public void plus(function f1) {
-       operationAdd(Operation.Plus,f1);
+        _bTF = ((ComplexFunction) initFromString(fixText("plus("+this.toString()+","+f1+")")))._bTF;
     }
 
     @Override
     public void mul(function f1) {
-        operationAdd(Operation.Times,f1);
+        _bTF = ((ComplexFunction) initFromString(fixText("mul("+this.toString()+","+f1+")")))._bTF;
     }
 
     @Override
     public void div(function f1) {
-        operationAdd(Operation.Divid,f1);
+        _bTF = ((ComplexFunction) initFromString(fixText("div("+this.toString()+","+f1+")")))._bTF;
     }
 
     @Override
     public void max(function f1) {
-        operationAdd(Operation.Max,f1);
+        _bTF = ((ComplexFunction) initFromString(fixText("max("+this.toString()+","+f1+")")))._bTF;
     }
 
     @Override
     public void min(function f1) {
-        operationAdd(Operation.Min,f1);
+        _bTF = ((ComplexFunction) initFromString(fixText("min("+this.toString()+","+f1+")")))._bTF;
     }
 
     @Override
     public void comp(function f1) {
-        operationAdd(Operation.Comp,f1);
+        _bTF = ((ComplexFunction) initFromString(fixText("comp("+this.toString()+","+f1+")")))._bTF;
     }
 
     @Override
@@ -80,6 +93,7 @@ public class ComplexFunction implements complex_function {
         if (_bTF.getOP()==Operation.None){
             return _bTF.get_function();
         }
+
         return _bTF.getLF();
     }
 
@@ -95,7 +109,7 @@ public class ComplexFunction implements complex_function {
 
     @Override
     public double f(double x) {
-        return _bTF.calculate(x);
+        return _bTF.f(x);
     }
 
     public function copy() {
@@ -191,7 +205,11 @@ public class ComplexFunction implements complex_function {
         if(obj instanceof function) {
             double x = -2.5;
             while(x <= 2.5) {
-                if(!(Math.abs(this.f(x)-((function) obj).f(x))<=0.00001)) return false;
+
+                if(!(Math.abs(this.f(x)-((function) obj).f(x))<=0.00001)){
+
+                    return false;
+                }
                 x += 0.1;
             }
             for (int i = 0;i<32;i++) {

@@ -31,20 +31,34 @@ public class BinaryTreeFunction {
                 if (other._value != null)
                     this._value = other._value.copy();
             }
-        }
-        private boolean hasLeft(){
-            return this._left!= null;
-        }
-        private boolean hasright(){
-            return this._right!= null;
-        }
-        private boolean isLeaf(){
-            return !this.hasright() && !this.hasLeft();
+            if (other._right!=null) {
+                this._right = new Node(other._right);
+            }
+            if (other._left!=null) {
+                this._left = new Node(other._left);
+            }
         }
         private double getResults(double x){
-            if (_value != null && this.isLeaf()) return _value.f(x);
-            else
-                return results;
+            if (_operation == Operation.None) return _value.f(x);
+            if (_operation == Operation.Comp){
+                return _left.getResults(_right.getResults(x));
+            }
+            if (_operation == Operation.Plus) return _left.getResults(x) + _right.getResults(x);
+            if (_operation == Operation.Max) return Math.max( _left.getResults(x) ,_right.getResults(x));
+            if (_operation == Operation.Min) return Math.min( _left.getResults(x) ,_right.getResults(x));
+            if (_operation == Operation.Divid){
+                if (_right.getResults(x)==0){
+                    Functions_GUI.divByZero = true;
+                    return 0;
+                }
+                return  _left.getResults(x) /_right.getResults(x);
+            }
+            if (_operation == Operation.Times)  return  _left.getResults(x) *_right.getResults(x);
+            throw new RuntimeException("ERR : no right opertion");
+
+
+
+
         }
 
         public void set_operation(Operation _operation) {
@@ -57,9 +71,6 @@ public class BinaryTreeFunction {
             return _value;
         }
 
-        private void setResults(double results){
-            this.results = results;
-        }
 
         public Operation get_operation() {
             return _operation;
@@ -137,52 +148,11 @@ public class BinaryTreeFunction {
         }
     }
 
-    public double calculate(double x){
-        if (_root == null) throw new RuntimeException("NULL!!! at F(x)");
-        Node temp = recursiveCalculate(_root,x);
-        return temp.getResults(x);
-    }
-
-    private Node recursiveCalculate(Node current, double x){
-        if (current.isLeaf()) return current;
-        if (current._isOperation){
-            Node right = recursiveCalculate(current._right, x);
-            Node left = recursiveCalculate(current._left, x);
-            current.setResults(calculateNow(left,right,current._operation,x));
-        }
-        return current;
-    }
-
-    private double calculateNow(Node left, Node right, Operation p , double x){
-        switch (p){
-            case Comp:
-                return left.getResults(right.getResults(x));
-            case Max:
-                return Math.max(left.getResults(x),right.getResults(x));
-            case Min:
-                return Math.min(left.getResults(x),right.getResults(x));
-            case None:
-                break;
-            case Plus:
-                return left.getResults(x) + right.getResults(x);
-            case Divid:
-                if (right.getResults(x)==0){
-                    Functions_GUI.divByZero = true;
-                    return 0;
-                }
-                return left.getResults(x) / right.getResults(x);
-            case Times:
-                return left.getResults(x) * right.getResults(x);
-            case Error:
-                default: throw new RuntimeException("ERR : no right opertion");
-        }
-        throw new RuntimeException("ERR : no right opertion");
-    }
-
     public function getLF() {
         if (_root._operation==Operation.None){
             return this._root._value;
         }
+
         BinaryTreeFunction binaryTreeFunction = new BinaryTreeFunction(_root._left);
        return new ComplexFunction( binaryTreeFunction);
     }
@@ -303,7 +273,14 @@ public class BinaryTreeFunction {
     }
     @Override
     public String toString() {
-        return printInOrder(_root);
+        String s = printInOrder(_root);
+        s = s.replaceAll("Divid","div");
+        s = s.replaceAll("Plus","plus");
+        s = s.replaceAll("Times","mul");
+        s = s.replaceAll("Comp","comp");
+        s = s.replaceAll("Max","max");
+        s = s.replaceAll("Min","min");
+        return s;
     }
 
     private String printInOrder(Node current){
@@ -315,7 +292,14 @@ public class BinaryTreeFunction {
 
     }
 
-    public function get_function() {
+
+        public function get_function() {
         return _root.getFunction();
     }
+
+    public double f(double x) {
+        if (_root == null) throw new RuntimeException("NULL!!! at F(x)");
+        return _root.getResults(x);
+    }
+
 }

@@ -34,6 +34,7 @@ public class Polynom implements Polynom_able{
 	 * @param s: is the given string represents a Polynom.
 	 */
 	public Polynom(String s) {
+		s=s.replaceAll(" ", "");
 
 	    if (DBUG){
             System.out.println("DBUG polynom status: " + "try to create a new polynom with " + s);
@@ -348,6 +349,7 @@ public class Polynom implements Polynom_able{
 	 * @param s = the Monom we want to add, as a string
 	 */
 	private void addMonom(String s){
+		s=s.replaceAll(" ", "");
 		this.add(new Monom(s));
 	}
 

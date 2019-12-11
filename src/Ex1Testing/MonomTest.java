@@ -132,7 +132,7 @@ public class MonomTest {
 		assertEquals(expected, m.toString());
 
 		m = new Monom("-1x^7");
-		expected = "-x^7";
+		expected = "-1.0x^7";
 		assertEquals(expected, m.toString());
 
 		m = new Monom("-9x^0");
