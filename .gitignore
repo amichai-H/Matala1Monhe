@@ -1,5 +1,7 @@
+.idea
+out
+repository
 .idea/
 idea/workspace.xml
 out/
 .xml
-repository/
