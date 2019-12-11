@@ -165,7 +165,7 @@ public class Functions_GUI implements functions {
 
     @Override
     public int size() {
-        return 0;
+        return this.arrayList.size();
     }
 
     @Override
