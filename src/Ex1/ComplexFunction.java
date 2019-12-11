@@ -9,6 +9,14 @@ public class ComplexFunction implements complex_function {
     public ComplexFunction(BinaryTreeFunction b){
         _bTF = b;
     }
+
+    /**
+     * ComplexFunction(String), you can add String in syntax like that:
+     * Operation(function,function)
+     * Operation's options: plus, mul, div, max, min, comp
+     * function's options: Complex Function, Polynom , Monom
+     * @param s example "mul(x,x)"
+     */
     public ComplexFunction(String  s){
         try {
             _bTF = ((ComplexFunction) initFromString(s))._bTF;
@@ -19,13 +27,21 @@ public class ComplexFunction implements complex_function {
     public ComplexFunction(function p){
         _bTF = new BinaryTreeFunction(p);
     }
+
+    /**
+     * ComplexFunction(String operation, function, function),
+     * initilize a ComplexFunction with two functions and operation.
+     * it's look like that: operation(function,function)
+     * @param operation options: plus, mul, div, max, min, comp
+     * @param p1 is a Complex Function, Polynom , Monom
+     * @param p2 is a Complex Function, Polynom , Monom
+     */
     public ComplexFunction(String operation, function p1, function p2) {
         operation = fixText(operation);
         _bTF = new BinaryTreeFunction(findOpFromString(operation));
         _bTF.add(p1,true);
         _bTF.add(p2,false);
     }
-
     public ComplexFunction(String operation, function p, ComplexFunction cf) {
         operation = fixText(operation);
         _bTF = new BinaryTreeFunction(findOpFromString(operation));
@@ -45,7 +61,6 @@ public class ComplexFunction implements complex_function {
         _bTF.add(p1,true);
         _bTF.add(p2,false);
     }
-
     public ComplexFunction(Operation operation, function p, ComplexFunction cf) {
         _bTF = new BinaryTreeFunction(findOpFromString(operation.toString()));
         _bTF.add(p,true);
@@ -58,64 +73,116 @@ public class ComplexFunction implements complex_function {
         _bTF.add(cf._bTF,true);
     }
 
+    /**
+     * plus adds the function to this ComplexFunction (this ComplexFunction + function).
+     * @param f1 the complex_function which will be added to this complex_function.
+     */
     @Override
     public void plus(function f1) {
         _bTF = ((ComplexFunction) initFromString(fixText("plus("+this.toString()+","+f1+")")))._bTF;
     }
 
+    /**
+     *
+     * @param f1 the complex_function which will be multiply be this complex_function.
+     */
     @Override
     public void mul(function f1) {
         _bTF = ((ComplexFunction) initFromString(fixText("mul("+this.toString()+","+f1+")")))._bTF;
     }
 
+    /**
+     *
+     * @param f1 the complex_function which will be divid this complex_function.
+     */
     @Override
     public void div(function f1) {
         _bTF = ((ComplexFunction) initFromString(fixText("div("+this.toString()+","+f1+")")))._bTF;
     }
 
+    /**
+     *
+     * @param f1 the complex_function which will be compared with this complex_function - to compute the maximum.
+     */
     @Override
     public void max(function f1) {
         _bTF = ((ComplexFunction) initFromString(fixText("max("+this.toString()+","+f1+")")))._bTF;
     }
 
+    /**
+     *
+     * @param f1 the complex_function which will be compared with this complex_function - to compute the minimum.
+     */
     @Override
     public void min(function f1) {
         _bTF = ((ComplexFunction) initFromString(fixText("min("+this.toString()+","+f1+")")))._bTF;
     }
 
+    /**
+     * This method wrap the f1 complex_function with this function: this.f(f1(x))
+     * @param f1 function
+     */
     @Override
     public void comp(function f1) {
         _bTF = ((ComplexFunction) initFromString(fixText("comp("+this.toString()+","+f1+")")))._bTF;
     }
 
+    /**
+     *
+     * @return the function in left
+     */
     @Override
     public function left() {
         if (_bTF.getOP()==Operation.None){
             return _bTF.get_function();
         }
-
         return _bTF.getLF();
     }
 
+    /**
+     *
+     * @return the function on right or null;
+     */
     @Override
     public function right() {
         return _bTF.getRF();
     }
 
+    /**
+     *
+     * @return Op in tha Complex Function
+     */
     @Override
     public Operation getOp() {
         return _bTF.getOP();
     }
 
+    /**
+     *  Calculate the value obtained for setting a given x in the Complex function
+     * @param x
+     * @return
+     */
     @Override
     public double f(double x) {
         return _bTF.f(x);
     }
 
+    /**
+     *
+     * @return copy of this complex function
+     */
     public function copy() {
         return new ComplexFunction(this._bTF.copy());
     }
 
+    /**
+     * ComplexFunction(String), you can add String in syntax like that:
+     * Operation(function,function)
+     * Operation's options: plus, mul, div, max, min, comp
+     * function's options: Complex Function, Polynom , Monom
+     * @param s1
+     * @return function
+     */
     public function initFromString(String s1) {
         boolean tryPoly;
         Polynom p = new Polynom();
@@ -181,6 +248,10 @@ public class ComplexFunction implements complex_function {
 
     }
 
+    /**
+     *
+     * @return the function in the right syntax
+     */
     @Override
     public String toString() {
         return _bTF.toString();
@@ -200,6 +271,14 @@ public class ComplexFunction implements complex_function {
         s = s.replaceAll("min","Min");
         return s;
     }
+
+    /**
+     * psudo equals
+     * this method return if the functions equlas
+     * more of the problem in this method at https://github.com/amichai-H/Matala1Monhe/issues/1
+     * @param obj
+     * @return true if this function = function(obj) and false if !=
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj instanceof function) {
