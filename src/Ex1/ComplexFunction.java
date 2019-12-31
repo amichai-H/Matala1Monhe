@@ -204,6 +204,7 @@ public class ComplexFunction implements complex_function {
     }
 
     private Operation findOpFromString(String s){
+        s=fixText(s);
         switch (s){
             case "Plus": return Operation.Plus;
             case "Mul": return Operation.Times;
